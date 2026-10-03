@@ -14,11 +14,12 @@ const font = opentype.parse(
 
 /**
  * Bildmarke: orangefarbenes Quadrat mit weißem Linien-Transporter,
- * dessen Laderaum die Silhouette eines Hauses hat („Ihr Zuhause in Bewegung").
+ * dessen Laderaum die Silhouette eines Hauses mit Schornstein hat („Ihr Zuhause in Bewegung").
  * Raster 0 0 32 32 (wie das ursprüngliche Favicon).
  */
-const ICON_PATHS = `
+const ICON_PATHS = (fg) => `
     <path d="M14 18V8L8 3 2 8V17a1 1 0 0 0 1 1h2"/>
+    <path d="M10.5 5.1V2.3H12.4V6.7Z" fill="${fg}"/>
     <path d="M15 18H9"/>
     <path d="M19 18h2a1 1 0 0 0 1-1v-3.6l-3.7-5A1 1 0 0 0 17.5 8H14"/>
     <circle cx="17" cy="18" r="2"/>
@@ -27,7 +28,7 @@ const ICON_PATHS = `
 function mark({ bg = ORANGE, fg = '#FFFFFF' } = {}) {
   return `
   <rect width="32" height="32" rx="7" fill="${bg}"/>
-  <g fill="none" stroke="${fg}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4.5)">${ICON_PATHS}
+  <g fill="none" stroke="${fg}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4.5)">${ICON_PATHS(fg)}
   </g>`;
 }
 const MARK_W = 32;
