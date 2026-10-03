@@ -23,6 +23,7 @@ function payload({ input, result }, lead) {
     floorFrom: floor(input.floorFrom, input.liftFrom),
     floorTo: floor(input.floorTo, input.liftTo),
     extras,
+    jobcenter: lead.jobcenter ? 'Ja' : 'Nein',
     price: result.price,
     website: lead.website ?? '', // Honeypot
   };
@@ -37,6 +38,7 @@ function summary(p) {
     `Wohnfläche: ${p.sqm} m² · Strecke: ${p.km} km · Anfahrt: ${p.approachKm ? `${p.approachKm} km` : 'unbekannt'}`,
     `Auszug: ${p.floorFrom} · Einzug: ${p.floorTo}`,
     `Zusatzleistungen: ${p.extras}`,
+    `Bezahlung über Jobcenter: ${p.jobcenter}`,
     `Online-Preis: ${eur.format(p.price)}`,
   ].join('\n');
 }

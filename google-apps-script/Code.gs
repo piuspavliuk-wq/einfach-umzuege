@@ -23,6 +23,7 @@ const COLUMNS = [
   ['floorFrom', 'Etage Auszug'],
   ['floorTo', 'Etage Einzug'],
   ['extras', 'Zusatzleistungen'],
+  ['jobcenter', 'Jobcenter'],
   ['price', 'Online-Preis €'],
   ['status', 'Status'],
 ];
@@ -89,7 +90,7 @@ function sendMail(row) {
     ['Name', row.name], ['Telefon', row.phone], ['Wunschtermin', row.date || 'flexibel'],
     ['Von → Nach', `${row.from} → ${row.to}`], ['Wohnfläche', `${row.sqm} m²`],
     ['Strecke', `${row.km} km`], ['Anfahrt ab Raunheim', row.approachKm ? `${row.approachKm} km` : 'unbekannt'],
-    ['Etagen', `Auszug: ${row.floorFrom} · Einzug: ${row.floorTo}`], ['Zusatzleistungen', row.extras || 'keine'],
+    ['Etagen', `Auszug: ${row.floorFrom} · Einzug: ${row.floorTo}`], ['Zusatzleistungen', row.extras || 'keine'], ['Bezahlung über Jobcenter', row.jobcenter || 'Nein'],
     ['Online-Preis', `${row.price} €`],
   ];
 

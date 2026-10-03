@@ -157,6 +157,11 @@ function page(city) {
           <a href="${calcUrl}" class="btn-primary">Preis für ${esc(city.short)} berechnen</a>
           <a data-whatsapp href="https://wa.me/${COMPANY.whatsapp}" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
         </div>
+        <ul class="mt-8 flex flex-col gap-2 text-sm font-medium sm:flex-row sm:flex-wrap sm:gap-x-6">
+          <li><span class="text-accent">✓</span> Festpreisgarantie</li>
+          <li><span class="text-accent">✓</span> Voll versichert</li>
+          <li><span class="text-accent">✓</span> Zahlung über Jobcenter möglich</li>
+        </ul>
       </div>
     </section>
 
