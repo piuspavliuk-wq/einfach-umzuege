@@ -19,7 +19,7 @@ const font = opentype.parse(
  */
 const ICON_PATHS = (fg) => `
     <path d="M14 18V8L8 3 2 8V17a1 1 0 0 0 1 1h2"/>
-    <path d="M10.5 5.1V2.3H12.4V6.7Z" fill="${fg}"/>
+    <path d="M5.5 5.1V2.3H3.6V6.7Z" fill="${fg}"/>
     <path d="M15 18H9"/>
     <path d="M19 18h2a1 1 0 0 0 1-1v-3.6l-3.7-5A1 1 0 0 0 17.5 8H14"/>
     <circle cx="17" cy="18" r="2"/>
