@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/montserrat';
+
+@theme {
+  --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+  --color-navy: #0f172a;
+  --color-navy-800: #1e293b;
+  --color-navy-700: #334155;
+  --color-mist: #f8fafc;
+  --color-line: #e2e8f0;
+  --color-accent: #f97316;
+  --color-accent-dark: #ea580c;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+  body { @apply bg-white text-navy font-sans antialiased; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
+
+@utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent; }
+@utility btn-primary { @apply btn bg-accent text-white hover:bg-accent-dark; }
+@utility btn-outline { @apply btn border border-navy/20 text-navy hover:border-navy; }
+@utility h2 { @apply text-2xl font-bold tracking-tight sm:text-3xl; }
+@utility field-label { @apply mb-1.5 block text-sm font-semibold; }
+@utility field { @apply w-full rounded-md border border-line bg-white px-3.5 py-3 text-navy outline-none transition focus:border-navy; }
+@utility chip { @apply cursor-pointer rounded-full border border-line px-4 py-2 text-sm transition select-none hover:border-navy has-[:checked]:border-navy has-[:checked]:bg-navy has-[:checked]:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent; }
+@utility photo-slot { @apply m-0 grid w-full place-items-center overflow-hidden rounded-sm bg-slate-100 text-center text-xs text-slate-400; }
+
+@layer components {
+  .legal h2 { @apply mt-8 mb-2 text-xl font-bold; }
+  .legal p { @apply mb-3 leading-relaxed text-navy-700; }
+}
+
+
+/* Schieberegler: orange Füllung bis zum Wert (--p wird per JS gesetzt) */
+.slider {
+  --p: 50%;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-accent) var(--p), var(--color-line) var(--p));
+  cursor: pointer;
+  outline: none;
+}
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  border: 5px solid var(--color-accent);
+  box-shadow: 0 2px 6px rgb(15 23 42 / 0.25);
+  transition: transform 0.15s;
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 5px solid var(--color-accent);
+  box-shadow: 0 2px 6px rgb(15 23 42 / 0.25);
+  transition: transform 0.15s;
+}
+.slider:hover::-webkit-slider-thumb, .slider:active::-webkit-slider-thumb { transform: scale(1.15); }
+.slider:hover::-moz-range-thumb, .slider:active::-moz-range-thumb { transform: scale(1.15); }
+.slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgb(249 115 22 / 0.3); }
+.slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgb(249 115 22 / 0.3); }
+
+.photo-slot > span { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: 1rem; }
+
+/* Städte-Autocomplete */
+.city-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30;
+  max-height: 20rem; overflow-y: auto; margin: 0; padding: 6px; list-style: none;
+  background: #fff; border: 1px solid var(--color-line); border-radius: 10px;
+  box-shadow: 0 16px 40px -12px rgb(15 23 42 / 0.22);
+}
+.city-option {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.65rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; color: var(--color-navy-700);
+}
+.city-option strong { color: var(--color-navy); font-weight: 700; }
+.city-option[aria-selected='true'] { background: var(--color-mist); color: var(--color-navy); }
+.city-option[aria-selected='true'] .city-meta { color: var(--color-accent); }
+.city-meta { flex-shrink: 0; font-size: 0.75rem; color: #94a3b8; font-variant-numeric: tabular-nums; }
+.city-empty { padding: 0.65rem 0.75rem; font-size: 0.85rem; color: #94a3b8; }
+.city-header {
+  position: sticky; top: -6px; z-index: 1; margin: -6px -6px 4px; padding: 0.7rem 1.1rem 0.6rem;
+  background: #fff; border-bottom: 1px solid var(--color-line);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #94a3b8;
+}
+.city-option--state { color: var(--color-navy); font-weight: 600; }
+.city-option--state .city-meta::after { content: '›'; margin-left: 0.6rem; font-size: 1rem; color: #94a3b8; }
+.city-option--back { color: var(--color-navy-700); font-size: 0.85rem; }
+/* Pfeil im Städtefeld, damit klar ist: anklickbar */
+.city-input {
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.9rem center; background-size: 16px;
+}
+
+/* Selects mit eigenem Pfeil */
+select.field {
+  appearance: none; padding-right: 2.5rem; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.9rem center; background-size: 16px;
+}
