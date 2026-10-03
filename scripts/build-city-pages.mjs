@@ -99,7 +99,7 @@ function page(city) {
   const isBase = city.db === BASE.name;
   const from = d.local[1].price;
   const title = `Umzug ${city.short} zum Festpreis – Umzugsfirma ${city.short} | Einfach Umzüge`;
-  const description = `Umzugsfirma für ${city.name}: Umzug zum Festpreis ab ${eur(d.local[0].price)}, voll versichert, 7 Tage die Woche. Preis in 60 Sekunden online berechnen!`;
+  const description = `Umzugsfirma für ${city.name}: Umzug zum Festpreis ab ${eur(d.local[0].price)}, voll versichert, auch samstags. Preis in 60 Sekunden online berechnen!`;
   const calcUrl = `/?von=${encodeURIComponent(city.db)}#rechner`;
 
   const intro = isBase
@@ -110,8 +110,8 @@ function page(city) {
     [`Was kostet ein Umzug in ${city.short}?`,
       `Ein Umzug innerhalb von ${city.name} kostet bei uns ab ${eur(d.local[0].price)} für eine 1-Zimmer-Wohnung und ab ${eur(from)} für eine 2-Zimmer-Wohnung (Erdgeschoss, ohne Zusatzleistungen, inkl. Anfahrt ab Raunheim). Etage, Aufzug und Zusatzleistungen berechnen Sie im Online-Rechner – Ihr verbindlicher Festpreis folgt nach kurzer Besichtigung.`],
     [`Wie schnell können Sie in ${city.short} sein?`,
-      isBase ? `Sehr schnell – Raunheim ist unser Standort. Kurzfristige Termine sind oft möglich, auch am Wochenende.`
-        : `Von Raunheim aus erreichen wir ${city.name} in rund ${driveText(d.minutes)}. Wir arbeiten 7 Tage die Woche, also auch samstags und sonntags, und vergeben kurzfristige Termine.`],
+      isBase ? `Sehr schnell – Raunheim ist unser Standort. Kurzfristige Termine sind oft möglich, auch samstags.`
+        : `Von Raunheim aus erreichen wir ${city.name} in rund ${driveText(d.minutes)}. Wir arbeiten von Montag bis Samstag und vergeben kurzfristige Termine.`],
     [`Brauche ich in ${city.short} eine Halteverbotszone?`,
       `Wenn vor dem Haus wenig Platz ist, ist eine Halteverbotszone sinnvoll. Sie wird bei der zuständigen Behörde der Stadt ${city.name} beantragt – in der Regel rund zwei Wochen vor dem Umzug. Auf Wunsch übernehmen wir Antrag und Beschilderung für Sie.`],
     [`Übernimmt das Jobcenter in ${city.short} die Umzugskosten?`,
@@ -152,7 +152,7 @@ function page(city) {
       <div class="container-x pt-8 pb-14 sm:pb-20">
         <p class="text-sm text-navy-700">Umzugsfirma ${esc(city.name)} · ${esc(city.state)}</p>
         <h1 id="hero-title" class="mt-4 max-w-3xl text-[clamp(2rem,7vw,3.75rem)] leading-[1.08] font-bold tracking-tight">Umzug ${esc(city.short)} zum Festpreis</h1>
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-navy-700">${intro} Ihr Familienbetrieb für Privatumzüge, Seniorenumzüge und Jobcenter-Umzüge in ${esc(city.name)} – voll versichert und 7&nbsp;Tage die Woche.</p>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-navy-700">${intro} Ihr Familienbetrieb für Privatumzüge, Seniorenumzüge und Jobcenter-Umzüge in ${esc(city.name)} – voll versichert, Montag bis Samstag.</p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <a href="${calcUrl}" class="btn-primary">Preis für ${esc(city.short)} berechnen</a>
           <a data-whatsapp href="https://wa.me/${COMPANY.whatsapp}" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
@@ -221,7 +221,7 @@ function page(city) {
       <div class="container-x">
         <h2 id="cta-title" class="text-sm text-navy-700">Ihre Umzugsfirma für ${esc(city.name)}</h2>
         <a data-phone href="tel:${COMPANY.phone.replace(/\s/g, '')}" class="mt-4 block text-4xl font-bold tracking-tight hover:text-accent sm:text-6xl"><span data-phone="text">${esc(COMPANY.phone)}</span></a>
-        <p class="mt-4 text-navy-700">Täglich, auch sonntags, 7–20 Uhr.</p>
+        <p class="mt-4 text-navy-700">Mo–Sa, 7–20 Uhr.</p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <a href="${calcUrl}" class="btn-primary">Preis berechnen</a>
           <a data-whatsapp href="https://wa.me/${COMPANY.whatsapp}" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
@@ -280,7 +280,7 @@ function overview() {
   <main id="main" class="container-x py-16 sm:py-24">
     <nav aria-label="Brotkrumen" class="text-sm text-navy-700"><a href="/" class="hover:text-navy">Startseite</a> / <span class="text-navy">Einsatzorte</span></nav>
     <h1 class="mt-6 text-[clamp(2rem,6vw,3.5rem)] leading-[1.1] font-bold tracking-tight">Umzugsfirma im Rhein-Main-Gebiet &amp; 200&nbsp;km Umkreis</h1>
-    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-navy-700">Von Raunheim aus ziehen wir Sie in ganz Hessen, Rheinland-Pfalz und dem Saarland sowie in großen Teilen von Nordrhein-Westfalen, Baden-Württemberg und Bayern um – zum Festpreis und 7&nbsp;Tage die Woche.</p>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-navy-700">Von Raunheim aus ziehen wir Sie in ganz Hessen, Rheinland-Pfalz und dem Saarland sowie in großen Teilen von Nordrhein-Westfalen, Baden-Württemberg und Bayern um – zum Festpreis, Montag bis Samstag.</p>
     <div class="mt-14 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
       ${byState.map((s) => `<section><h2 class="border-b border-navy pb-3 text-lg font-bold">${esc(s)}</h2><ul class="mt-2 divide-y divide-line">${CITIES.filter((c) => c.state === s)
         .map((c) => `<li><a href="${c.url}" class="flex justify-between py-3 hover:text-accent"><span>Umzug ${esc(c.short)}</span><span class="text-sm text-navy-700 tabular-nums">${roadKm(BASE, c)} km</span></a></li>`).join('')}</ul></section>`).join('\n      ')}
