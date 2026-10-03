@@ -13,6 +13,8 @@
 }
 
 @layer base {
+  /* Kein horizontales Scrollen auf dem Handy, egal welches Element übersteht */
+  html, body { overflow-x: clip; }
   html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
   body { @apply bg-white text-navy font-sans antialiased; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
