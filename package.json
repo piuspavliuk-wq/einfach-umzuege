@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/build-city-pages.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/build-city-pages.mjs",
     "build": "vite build",
     "preview": "vite preview",
+    "pages": "node scripts/build-city-pages.mjs",
     "map": "node scripts/build-map.mjs",
     "cities": "node scripts/build-cities.mjs",
     "logo": "node scripts/build-logo.mjs"

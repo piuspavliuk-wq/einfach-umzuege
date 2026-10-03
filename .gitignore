@@ -1,3 +1,5 @@
 node_modules
 dist
 .DS_Store
+# erzeugt von scripts/build-city-pages.mjs
+umzug/

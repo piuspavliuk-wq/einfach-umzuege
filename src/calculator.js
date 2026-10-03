@@ -87,6 +87,13 @@ export async function initCalculator(root) {
   const meta = (city) => `${city.km} km`;
   ['from', 'to'].forEach((id) => attachCityCombobox($(id), { entries, states, norm, meta }));
 
+  // Vorbelegung aus dem Link, z. B. /?von=Köln#rechner (von den Standortseiten)
+  const params = new URLSearchParams(location.search);
+  [['from', 'von'], ['to', 'nach']].forEach(([id, key]) => {
+    const city = params.get(key) && findCity(params.get(key));
+    if (city) $(id).value = city.name;
+  });
+
   const read = () => {
     const d = new FormData(form);
     const from = findCity(d.get('from'));
