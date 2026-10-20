@@ -89,7 +89,7 @@ export function initLeadForm(form, getEstimate) {
           href: whatsappUrl(summary(data)), target: '_blank', rel: 'noopener',
           className: 'underline font-semibold', textContent: 'Anfrage per WhatsApp senden',
         }),
-        ` oder anrufen: ${COMPANY.phone}`,
+        `, anrufen: ${COMPANY.phone} oder per E-Mail: ${COMPANY.email}`,
       );
     } finally {
       submit.disabled = false;

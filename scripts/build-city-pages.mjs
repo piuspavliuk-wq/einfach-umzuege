@@ -226,6 +226,7 @@ function page(city) {
       <div class="container-x">
         <h2 id="cta-title" class="text-sm text-navy-700">Ihre Umzugsfirma für ${esc(city.name)}</h2>
         <a data-phone href="tel:${COMPANY.phone.replace(/\s/g, '')}" class="mt-4 block text-4xl font-bold tracking-tight hover:text-accent sm:text-6xl"><span data-phone="text">${esc(COMPANY.phone)}</span></a>
+        <a href="mailto:${COMPANY.email}" class="mt-3 inline-block text-lg font-semibold underline decoration-line underline-offset-4 hover:text-accent sm:text-xl">${COMPANY.email}</a>
         <p class="mt-4 text-navy-700">Mo–Sa, 7–20 Uhr.</p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <a href="${calcUrl}" class="btn-primary">Preis berechnen</a>

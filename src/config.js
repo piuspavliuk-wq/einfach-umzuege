@@ -4,7 +4,7 @@ export const COMPANY = {
   name: 'Einfach Umzüge',
   phone: '+49 15568 716603',
   whatsapp: '4915568716603',         // ohne + und Leerzeichen
-  email: 'info@einfach-umzuege.de',  // TODO
+  email: 'anfrage@einfach-umzuege.de', // für Kunden und Anfragen (Impressum: kontakt@)
 };
 
 // Google-Apps-Script-URL (endet auf /exec) – Anfragen landen in Google Sheets + E-Mail.
