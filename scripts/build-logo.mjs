@@ -91,4 +91,68 @@ out('logo-horizontal-white.svg', horizontal({ navy: '#FFFFFF' }, NAVY));
 out('icon.svg', svgDoc(32, 32, mark()));
 out('favicon.svg', svgDoc(32, 32, mark()));
 
-console.log('Logos geschrieben: brand/logo.svg, logo-horizontal.svg, logo-horizontal-white.svg, icon.svg, favicon.svg');
+// 4) T-Shirts / dunkle Textilien (transparent, für Druck auf Navy)
+{
+  const WHITE = '#FFFFFF';
+  const dir = new URL('../brand/tshirt/', import.meta.url);
+  mkdirSync(dir, { recursive: true });
+  const outT = (name, svg) => writeFileSync(new URL(name, dir), svg);
+  const font600 = opentype.parse(
+    readFileSync(require.resolve('@fontsource/montserrat/files/montserrat-latin-600-normal.woff')).buffer,
+  );
+  const textPath = (f, str, size, x, y, fill) => `<path d="${f.getPath(str, x, y, size).toPathData(2)}" fill="${fill}"/>`;
+  const textW = (f, str, size) => f.getAdvanceWidth(str, size);
+
+  // Einfarbig: weißes Quadrat, Transporter ausgespart (Stoff scheint durch)
+  let maskId = 0;
+  const markKnockout = (color = WHITE) => {
+    const id = `ko${maskId++}`;
+    return `
+  <mask id="${id}"><rect width="32" height="32" rx="7" fill="#fff"/>
+    <g fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4.5)">${ICON_PATHS('#000')}</g>
+  </mask>
+  <rect width="32" height="32" rx="7" fill="${color}" mask="url(#${id})"/>`;
+  };
+
+  // Brust: horizontal
+  const chest = (markSvg, colors) => {
+    const s = 1.5; const gap = 14; const wm = wordmark(32, colors);
+    const h = Math.max(MARK_H * s, wm.height); const w = MARK_W * s + gap + wm.width;
+    return svgDoc(w, h, `
+  <g transform="translate(0 ${((h - MARK_H * s) / 2).toFixed(1)}) scale(${s})">${markSvg}</g>
+  <g transform="translate(${(MARK_W * s + gap).toFixed(1)} ${((h - wm.height) / 2 + 2).toFixed(1)})">${wm.svg}</g>`);
+  };
+  outT('brust-farbig.svg', chest(mark(), { navy: WHITE }));
+  outT('brust-einfarbig-weiss.svg', chest(markKnockout(), { navy: WHITE, orange: WHITE }));
+
+  // Rücken: groß, mit Slogan, Telefon und Website
+  const back = (markSvg, colors, sub) => {
+    const wm = wordmark(60, colors);
+    const markScale = 5.5;
+    const lines = [
+      ['Umzüge zum Festpreis', 26, sub],
+      ['+49 15568 716603', 34, WHITE],
+      ['einfach-umzuege.de', 26, colors.orange],
+    ];
+    const w = Math.max(MARK_W * markScale, wm.width, ...lines.map(([t, z]) => textW(font600, t, z))) + 40;
+    let y = 20;
+    let body = `\n  <g transform="translate(${((w - MARK_W * markScale) / 2).toFixed(1)} ${y}) scale(${markScale})">${markSvg}</g>`;
+    y += MARK_H * markScale + 36;
+    body += `\n  <g transform="translate(${((w - wm.width) / 2).toFixed(1)} ${y})">${wm.svg}</g>`;
+    y += wm.height + 30;
+    for (const [t, z, fill] of lines) {
+      y += z;
+      body += `\n  ${textPath(font600, t, z, (w - textW(font600, t, z)) / 2, y, fill)}`;
+      y += z * 0.55;
+    }
+    return svgDoc(w, y + 20, body);
+  };
+  outT('ruecken-farbig.svg', back(mark(), { navy: WHITE, orange: ORANGE }, '#CBD5E1'));
+  outT('ruecken-einfarbig-weiss.svg', back(markKnockout(), { navy: WHITE, orange: WHITE }, WHITE));
+
+  // Ärmel / Brusttasche: nur Bildmarke
+  outT('icon-farbig.svg', svgDoc(32, 32, mark()));
+  outT('icon-einfarbig-weiss.svg', svgDoc(32, 32, markKnockout()));
+}
+
+console.log('Logos geschrieben: brand/*.svg und brand/tshirt/*.svg');
