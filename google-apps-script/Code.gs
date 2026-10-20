@@ -26,6 +26,7 @@ const COLUMNS = [
   ['jobcenter', 'Jobcenter'],
   ['price', 'Online-Preis €'],
   ['status', 'Status'],
+  ['type', 'Art'], // „Anfrage" (Preisrechner) oder „Rückruf" – hinten, damit alte Zeilen passen
 ];
 
 function doPost(e) {
@@ -36,7 +37,7 @@ function doPost(e) {
     if (data.website) return json({ ok: true });
     if (!data.name || !data.phone) return json({ ok: false, error: 'missing fields' });
 
-    const row = { ...data, receivedAt: new Date(), status: 'Neu' };
+    const row = { ...data, type: data.type || 'Anfrage', receivedAt: new Date(), status: 'Neu' };
     appendRow(row);
     sendMail(row);
     return json({ ok: true });
@@ -57,6 +58,11 @@ function testAnfrage() {
   console.log(res.getContent());
 }
 
+function testRueckruf() {
+  const res = doPost({ postData: { contents: JSON.stringify({ type: 'Rückruf', name: 'TEST Rückruf – bitte löschen', phone: '0170 1234567' }) } });
+  console.log(res.getContent());
+}
+
 // Zum Testen im Browser: zeigt, dass der Endpoint erreichbar ist
 function doGet() {
   return json({ ok: true, service: 'Einfach Umzüge Anfragen' });
@@ -67,10 +73,12 @@ function appendRow(row) {
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(COLUMNS.map(([, label]) => label));
-    sheet.getRange(1, 1, 1, COLUMNS.length).setFontWeight('bold').setBackground('#0F172A').setFontColor('#FFFFFF');
     sheet.setFrozenRows(1);
   }
+  // Kopfzeile immer aktuell halten (neue Spalten erscheinen auch in bestehenden Tabellen)
+  sheet.getRange(1, 1, 1, COLUMNS.length)
+    .setValues([COLUMNS.map(([, label]) => label)])
+    .setFontWeight('bold').setBackground('#0F172A').setFontColor('#FFFFFF');
   // Mit ' vorangestellt, damit Google Telefonnummern/Termine nicht umformatiert
   const values = COLUMNS.map(([key]) => {
     const v = row[key] ?? '';
@@ -86,7 +94,8 @@ function sendMail(row) {
   const wa = phoneDigits.replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '49');
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  const lines = [
+  const callback = row.type === 'Rückruf';
+  const lines = callback ? [['Name', row.name], ['Telefon', row.phone], ['Wunsch', 'Bitte zurückrufen']] : [
     ['Name', row.name], ['Telefon', row.phone], ['Wunschtermin', row.date || 'flexibel'],
     ['Von → Nach', `${row.from} → ${row.to}`], ['Wohnfläche', `${row.sqm} m²`],
     ['Strecke', `${row.km} km`], ['Anfahrt ab Raunheim', row.approachKm ? `${row.approachKm} km` : 'unbekannt'],
@@ -96,7 +105,7 @@ function sendMail(row) {
 
   const html = `
     <div style="font-family:Arial,sans-serif;color:#0F172A;max-width:560px">
-      <h2 style="margin:0 0 16px">Neue Umzugsanfrage</h2>
+      <h2 style="margin:0 0 16px">${callback ? 'Rückruf erbeten' : 'Neue Umzugsanfrage'}</h2>
       <table style="border-collapse:collapse;width:100%">
         ${lines.map(([k, v]) => `<tr><td style="padding:6px 12px 6px 0;color:#64748B;white-space:nowrap">${esc(k)}</td><td style="padding:6px 0"><b>${esc(v)}</b></td></tr>`).join('')}
       </table>
@@ -110,7 +119,9 @@ function sendMail(row) {
 
   MailApp.sendEmail({
     to,
-    subject: `Neue Anfrage: ${row.name} – ${row.from} → ${row.to} – ${row.price} €`,
+    subject: callback
+      ? `Rückruf erbeten: ${row.name} – ${row.phone}`
+      : `Neue Anfrage: ${row.name} – ${row.from} → ${row.to} – ${row.price} €`,
     htmlBody: html,
     body: lines.map(([k, v]) => `${k}: ${v}`).join('\n'),
   });

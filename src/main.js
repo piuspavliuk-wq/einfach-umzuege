@@ -1,7 +1,7 @@
 import './style.css';
 import { COMPANY } from './config.js';
 import { initCalculator } from './calculator.js';
-import { initLeadForm } from './lead.js';
+import { initCallbackForm, initLeadForm } from './lead.js';
 
 // WhatsApp- und Telefon-Links zentral aus der Config setzen
 document.querySelectorAll('[data-whatsapp]').forEach((a) => {
@@ -29,3 +29,6 @@ const calc = document.querySelector('#rechner');
 if (calc) initCalculator(calc).then((getEstimate) => initLeadForm(calc.querySelector('#lead-form'), getEstimate));
 
 document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+// Rückruf-Formular (Startseite und Standortseiten)
+document.querySelectorAll('form[data-callback]').forEach(initCallbackForm);

@@ -93,6 +93,7 @@ const SPRITE = grab(/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" class="hidden
 const HEADER = grab(/<header[\s\S]*?<\/header>/);
 const FOOTER = grab(/<footer[\s\S]*?<\/footer>/);
 const MOBILE = grab(/<div class="fixed inset-x-0 bottom-0[\s\S]*?<\/div>/);
+const CONTACT = grab(/<section id="kontakt"[\s\S]*?<\/section>/);
 const WA_FLOAT = grab(/<a id="wa-float"[\s\S]*?<\/a>/);
 
 function page(city) {
@@ -223,17 +224,11 @@ function page(city) {
       </div>
     </section>
 
-    <section class="border-t border-line py-16 sm:py-20" aria-labelledby="cta-title">
+    ${CONTACT.replace(/<p data-contact-eyebrow([^>]*)>[\s\S]*?<\/p>/, `<p data-contact-eyebrow$1>Ihre Umzugsfirma für ${esc(city.name)}</p>`)}
+
+    <section class="border-t border-line py-12" aria-labelledby="orte-title">
       <div class="container-x">
-        <h2 id="cta-title" class="text-sm text-navy-700">Ihre Umzugsfirma für ${esc(city.name)}</h2>
-        <a data-phone href="tel:${COMPANY.phone.replace(/\s/g, '')}" class="mt-4 block text-4xl font-bold tracking-tight hover:text-accent sm:text-6xl"><span data-phone="text">${esc(COMPANY.phone)}</span></a>
-        <a href="mailto:${COMPANY.email}" class="mt-3 inline-block text-lg font-semibold underline decoration-line underline-offset-4 hover:text-accent sm:text-xl">${COMPANY.email}</a>
-        <p class="mt-4 text-navy-700">Mo–Sa, 7–20 Uhr.</p>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a href="${calcUrl}" class="btn-primary">Preis berechnen</a>
-          <a data-whatsapp href="https://wa.me/${COMPANY.whatsapp}" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
-        </div>
-        <h2 class="mt-16 text-sm text-navy-700">Weitere Einsatzorte in der Nähe</h2>
+        <h2 id="orte-title" class="text-sm text-navy-700">Weitere Einsatzorte in der Nähe</h2>
         <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
           ${d.others.map((o) => `<li><a href="${o.url}" class="hover:text-accent">Umzug ${esc(o.short)}</a></li>`).join('\n          ')}
           <li><a href="/umzug/" class="font-semibold hover:text-accent">Alle Orte →</a></li>

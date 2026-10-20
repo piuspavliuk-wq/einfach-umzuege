@@ -96,3 +96,50 @@ export function initLeadForm(form, getEstimate) {
     }
   });
 }
+
+/** Rückruf-Formular (nur Name + Telefon) – landet in derselben Tabelle wie die Anfragen */
+export function initCallbackForm(form) {
+  const status = form.querySelector('[data-status]');
+  const submit = form.querySelector('button[type=submit]');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const { name, phone, website = '' } = Object.fromEntries(new FormData(form));
+    const text = `Bitte um Rückruf – ${name.trim()}, Telefon: ${phone.trim()}`;
+
+    if (!FORM_ENDPOINT) {
+      window.open(whatsappUrl(text), '_blank', 'noopener');
+      status.textContent = 'WhatsApp wurde geöffnet – senden Sie die Nachricht einfach ab.';
+      return;
+    }
+
+    submit.disabled = true;
+    status.textContent = 'Wird gesendet …';
+    try {
+      // Felder so gefüllt, dass auch ältere Skript-Versionen eine lesbare Zeile/E-Mail erzeugen
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          type: 'Rückruf', name: name.trim(), phone: phone.trim(), website,
+          from: 'Rückruf erbeten', to: '–', date: '–', extras: '–', jobcenter: '–', price: '–',
+        }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.ok) throw new Error(body.error || res.statusText);
+      form.reset();
+      status.textContent = 'Danke! Wir rufen Sie zurück – meist innerhalb von 1 Stunde (Mo–Sa, 7–20 Uhr).';
+    } catch {
+      status.replaceChildren(
+        'Senden fehlgeschlagen. Bitte rufen Sie uns an: ',
+        Object.assign(document.createElement('a'), { href: `tel:${COMPANY.phone.replace(/\s/g, '')}`, className: 'underline font-semibold', textContent: COMPANY.phone }),
+        ' oder ',
+        Object.assign(document.createElement('a'), { href: whatsappUrl(text), target: '_blank', rel: 'noopener', className: 'underline font-semibold', textContent: 'per WhatsApp' }),
+        '.',
+      );
+    } finally {
+      submit.disabled = false;
+    }
+  });
+}

@@ -447,15 +447,44 @@
     </section>
 
     <!-- KONTAKT -->
-    <section class="border-t border-line py-20 sm:py-28" aria-labelledby="cta-title">
-      <div class="container-x">
-        <h2 id="cta-title" class="text-sm text-navy-700">Umzugshelfer in Frankfurt, Mainz, Limburg &amp; 200 km Umkreis</h2>
-        <a data-phone href="tel:+4915568716603" class="mt-4 block text-4xl font-bold tracking-tight hover:text-accent sm:text-7xl"><span data-phone="text">+49 15568 716603</span></a>
-        <a href="mailto:anfrage@einfach-umzuege.de" class="mt-3 inline-block text-lg font-semibold underline decoration-line underline-offset-4 hover:text-accent sm:text-xl">anfrage@einfach-umzuege.de</a>
-        <p class="mt-4 max-w-xl leading-relaxed text-navy-700">Mo–Sa, 7–20 Uhr. Im Umkreis von 200&nbsp;km um Raunheim – von Frankfurt, Wiesbaden und Limburg bis Köln, Stuttgart und Nürnberg.</p>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a href="#rechner" class="btn-primary">Preis berechnen</a>
-          <a data-whatsapp href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
+    <section id="kontakt" class="border-t border-line py-20 sm:py-28" aria-labelledby="cta-title">
+      <div class="container-x grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+        <div>
+          <p data-contact-eyebrow class="text-sm text-navy-700">Umzugshelfer in Frankfurt, Mainz, Limburg &amp; 200&nbsp;km Umkreis</p>
+          <h2 id="cta-title" class="h2 mt-3">Fragen? Wir sind persönlich für&nbsp;Sie&nbsp;da.</h2>
+          <a data-phone href="tel:+4915568716603" class="mt-6 block text-4xl font-bold tracking-tight whitespace-nowrap hover:text-accent sm:text-6xl"><span data-phone="text">+49 15568 716603</span></a>
+          <a href="mailto:anfrage@einfach-umzuege.de" class="mt-3 inline-block text-lg font-semibold underline decoration-line underline-offset-4 hover:text-accent sm:text-xl">anfrage@einfach-umzuege.de</a>
+          <dl class="mt-8 grid grid-cols-2 gap-x-5 gap-y-4 text-sm sm:gap-x-8">
+            <div class="border-t border-line pt-3"><dt class="font-semibold">Erreichbar</dt><dd class="mt-0.5 text-navy-700">Mo–Sa, 7–20 Uhr</dd></div>
+            <div class="border-t border-line pt-3"><dt class="font-semibold">Antwort</dt><dd class="mt-0.5 text-navy-700">meist innerhalb von 1 Stunde</dd></div>
+            <div class="border-t border-line pt-3"><dt class="font-semibold">Standort</dt><dd class="mt-0.5 text-navy-700">Raunheim – zwischen Frankfurt und Mainz</dd></div>
+            <div class="border-t border-line pt-3"><dt class="font-semibold">Einsatzgebiet</dt><dd class="mt-0.5 text-navy-700">200&nbsp;km Umkreis, von Köln bis Nürnberg</dd></div>
+          </dl>
+        </div>
+
+        <div class="rounded-lg border border-line bg-white p-6 shadow-[0_24px_60px_-28px_rgb(15_23_42/0.35)] sm:p-8">
+          <!-- Später: rundes Foto des Ansprechpartners + Name hier einfügen -->
+          <p class="text-lg font-semibold">Rückruf anfordern</p>
+          <p class="mt-1 text-sm text-navy-700">Lieber nicht selbst anrufen? Nummer hinterlassen – wir melden uns, meist innerhalb von 1&nbsp;Stunde.</p>
+          <form data-callback class="mt-5 grid gap-3" novalidate>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
+            <div>
+              <label class="field-label" for="cb-name">Name</label>
+              <input class="field" id="cb-name" name="name" autocomplete="name" required />
+            </div>
+            <div>
+              <label class="field-label" for="cb-phone">Telefon</label>
+              <input class="field" id="cb-phone" name="phone" type="tel" autocomplete="tel" required pattern="[0-9+()\/\s-]{6,}" />
+            </div>
+            <button type="submit" class="btn-primary mt-1">Rückruf anfordern</button>
+            <p class="text-xs text-navy-700">Mit dem Absenden akzeptieren Sie unsere <a href="/datenschutz.html" class="underline">Datenschutzerklärung</a>.</p>
+            <p data-status class="min-h-5 text-sm text-navy-700" role="status"></p>
+          </form>
+          <div class="my-5 flex items-center gap-3 text-xs text-navy-700"><span class="h-px flex-1 bg-line"></span>oder<span class="h-px flex-1 bg-line"></span></div>
+          <a data-whatsapp data-whatsapp-text="Hallo Einfach Umzüge, ich möchte einen Festpreis für meinen Umzug. Ich schicke Ihnen Fotos meiner Wohnung." href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="flex items-center gap-4 rounded-lg border border-line p-4 transition hover:border-[#25D366]">
+            <span class="grid size-11 shrink-0 place-items-center rounded-full bg-[#25D366] text-white"><svg class="size-6"><use href="#i-whatsapp"/></svg></span>
+            <span><span class="block font-semibold">📷 Fotos per WhatsApp schicken</span><span class="text-sm text-navy-700">Festpreis in 1 Stunde – ganz ohne Formular</span></span>
+          </a>
         </div>
       </div>
     </section>
