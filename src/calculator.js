@@ -75,7 +75,8 @@ function animateNumber(el, to) {
 
 export async function initCalculator(root) {
   const form = root.querySelector('#calc-form');
-  const $ = (id) => root.querySelector(`#${id}`);
+  // Elemente auf der ganzen Seite (Mini-Rechner im Hero liegt außerhalb von root)
+  const $ = (id) => document.getElementById(id);
 
   // Städteliste nachladen (eigener Chunk, blockiert den Seitenaufbau nicht)
   const { default: { states, cities } } = await import('./cities.json');
@@ -89,13 +90,28 @@ export async function initCalculator(root) {
     .sort((a, b) => a.rank - b.rank);
   const findCity = cityFinder(entries);
   const meta = (city) => `${city.km} km`;
-  ['from', 'to'].forEach((id) => attachCityCombobox($(id), { entries, states, norm, meta }));
+  ['from', 'to', 'q-from', 'q-to'].forEach((id) => $(id) && attachCityCombobox($(id), { entries, states, norm, meta }));
+
+  // Mini-Rechner (data-mirror="<id>") und großer Rechner in beide Richtungen koppeln
+  const sync = (a, b) => a.addEventListener('input', () => {
+    if (b.value === a.value) return;
+    b.value = a.value;
+    b.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  document.querySelectorAll('[data-mirror]').forEach((mini) => {
+    const main = $(mini.dataset.mirror);
+    sync(mini, main);
+    sync(main, mini);
+  });
 
   // Vorbelegung aus dem Link, z. B. /?von=Köln#rechner (von den Standortseiten)
   const params = new URLSearchParams(location.search);
   [['from', 'von'], ['to', 'nach']].forEach(([id, key]) => {
     const city = params.get(key) && findCity(params.get(key));
-    if (city) $(id).value = city.name;
+    if (city) {
+      $(id).value = city.name;
+      $(id).dispatchEvent(new Event('input', { bubbles: true }));
+    }
   });
 
   const read = () => {
@@ -128,13 +144,17 @@ export async function initCalculator(root) {
   };
 
   // Slider und Zahlenfeld synchron halten, Füllstand des Sliders über --p
-  root.querySelectorAll('[data-sync]').forEach((range) => {
+  document.querySelectorAll('[data-sync]').forEach((range) => {
     const number = $(range.dataset.sync);
     const fill = () => {
       const p = ((range.value - range.min) / (range.max - range.min)) * 100;
       range.style.setProperty('--p', `${p}%`);
     };
-    range.addEventListener('input', () => { number.value = range.value; fill(); });
+    range.addEventListener('input', () => {
+      number.value = range.value;
+      fill();
+      number.dispatchEvent(new Event('input', { bubbles: true })); // für die Kopplung Mini ↔ groß
+    });
     number.addEventListener('input', () => { range.value = number.value; fill(); });
     fill();
   });
@@ -151,13 +171,16 @@ export async function initCalculator(root) {
     last = { input, result: estimate(input) };
     const { result } = last;
     $('route-info').textContent = routeText(input);
-    const price = $('price');
-    if (!input.ready) {
-      price.textContent = '– €';
-      delete price.dataset.value;
-    } else {
-      animateNumber(price, result.price);
-    }
+    // Preis im großen Rechner und im Mini-Rechner; ohne Orte ein Hinweis statt „– €"
+    document.querySelectorAll('[data-price]').forEach((price) => {
+      price.classList.toggle('price-empty', !input.ready);
+      if (!input.ready) {
+        price.textContent = 'Ihr Preis erscheint hier';
+        delete price.dataset.value;
+      } else {
+        animateNumber(price, result.price);
+      }
+    });
     $('price-breakdown').replaceChildren(...result.lines.map(([label, v]) => {
       const li = document.createElement('li');
       li.className = 'flex justify-between gap-4';
@@ -169,5 +192,20 @@ export async function initCalculator(root) {
 
   form.addEventListener('input', render);
   render();
+
+  // „Diesen Festpreis sichern": erst Preis, dann Kontaktdaten (Schritt 2)
+  const lead = $('lead-form');
+  document.querySelectorAll('[data-secure]').forEach((btn) => btn.addEventListener('click', () => {
+    if (!last.input.ready) {
+      // Noch keine Orte: zum passenden Feld (im Hero oder im großen Rechner)
+      const inHero = btn.closest('#schnellrechner');
+      const field = [inHero ? 'q-from' : 'from', inHero ? 'q-to' : 'to'].map($).find((f) => !f.value.trim()) ?? $(inHero ? 'q-from' : 'from');
+      field.focus();
+      return;
+    }
+    lead.hidden = false;
+    lead.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    $('lead-name').focus({ preventScroll: true });
+  }));
   return () => last;
 }

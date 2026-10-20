@@ -5,7 +5,8 @@ import { initLeadForm } from './lead.js';
 
 // WhatsApp- und Telefon-Links zentral aus der Config setzen
 document.querySelectorAll('[data-whatsapp]').forEach((a) => {
-  a.href = `https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent('Hallo Einfach Umzüge, ich interessiere mich für einen Umzug.')}`;
+  const text = a.dataset.whatsappText || 'Hallo Einfach Umzüge, ich interessiere mich für einen Umzug.';
+  a.href = `https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(text)}`;
 });
 document.querySelectorAll('[data-phone]').forEach((a) => {
   a.href = `tel:${COMPANY.phone.replace(/\s/g, '')}`;

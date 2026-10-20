@@ -117,6 +117,7 @@
           <li><a class="block py-2.5 text-navy-700 hover:text-navy" href="#einsatzgebiet">Einsatzgebiet</a></li>
           <li><a class="block py-2.5 text-navy-700 hover:text-navy" href="#faq">FAQ</a></li>
           <li><a class="block py-2.5 font-semibold" data-phone href="tel:+4915568716603"><span data-phone="text">+49 15568 716603</span></a></li>
+          <li class="hidden md:block"><a href="#rechner" class="btn-primary !px-4 !py-2 text-sm">Preis berechnen</a></li>
         </ul>
       </nav>
     </div>
@@ -125,21 +126,57 @@
   <main id="main">
     <!-- HERO -->
     <section aria-labelledby="hero-title">
-      <div class="container-x pt-16 pb-12 sm:pt-24 sm:pb-16">
-        <h1 id="hero-title" class="text-[clamp(2rem,9vw,4.5rem)] leading-[1.05] font-bold tracking-tight">
-          <span class="mb-5 block text-sm leading-normal font-normal tracking-normal text-navy-700">Umzugsfirma Frankfurt &amp; Rhein-Main<span class="hidden sm:inline"> · aus Raunheim · 200&nbsp;km Umkreis</span></span>
-          <span class="block whitespace-nowrap">Einfach Umziehen</span>
-          <span class="block whitespace-nowrap">zum Festpreis</span>
-        </h1>
-        <div class="mt-8 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-          <p class="max-w-md text-lg leading-relaxed text-navy-700">
-            Ihr <span class="hidden sm:inline">zuverlässiger </span>Familienbetrieb für stressfreie Umzüge<span class="hidden sm:inline"> – von Frankfurt und Mainz bis Köln, Stuttgart und Nürnberg</span>, auch samstags. <span class="hidden sm:inline">Transparente </span>Preise in 60&nbsp;Sekunden berechnen.
+      <div class="container-x grid gap-10 pt-12 pb-12 sm:pt-20 sm:pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
+        <div>
+          <h1 id="hero-title" class="text-[clamp(2rem,9vw,3.75rem)] leading-[1.05] font-bold tracking-tight">
+            <span class="mb-5 block text-sm leading-normal font-normal tracking-normal text-navy-700">Umzugsfirma Frankfurt &amp; Rhein-Main<span class="hidden sm:inline"> · aus Raunheim · 200&nbsp;km Umkreis</span></span>
+            <span class="block whitespace-nowrap">Einfach Umziehen</span>
+            <span class="block whitespace-nowrap">zum Festpreis</span>
+          </h1>
+          <p class="mt-6 max-w-md text-lg leading-relaxed text-navy-700">
+            Ihr <span class="hidden sm:inline">zuverlässiger </span>Familienbetrieb für stressfreie Umzüge<span class="hidden sm:inline"> – von Frankfurt und Mainz bis Köln, Stuttgart und Nürnberg</span>, auch samstags.
           </p>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="#rechner" class="btn-primary">Jetzt Preis berechnen</a>
-            <a data-whatsapp href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> WhatsApp</a>
-          </div>
+          <!-- WhatsApp-Angebot: Fotos statt Formular (Desktop links, Handy unter dem Rechner) -->
+          <a data-whatsapp data-whatsapp-text="Hallo Einfach Umzüge, ich möchte einen Festpreis für meinen Umzug. Ich schicke Ihnen Fotos meiner Wohnung." href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="mt-8 hidden max-w-md items-center gap-4 rounded-lg border border-line p-4 transition hover:border-[#25D366] lg:flex">
+            <span class="grid size-11 shrink-0 place-items-center rounded-full bg-[#25D366] text-white"><svg class="size-6"><use href="#i-whatsapp"/></svg></span>
+            <span><span class="block font-semibold">📷 Fotos per WhatsApp schicken</span><span class="text-sm text-navy-700">Festpreis in 1 Stunde – ganz ohne Formular</span></span>
+          </a>
         </div>
+
+        <!-- Mini-Rechner: gekoppelt an den großen Rechner unten (data-mirror) -->
+        <div id="schnellrechner" class="rounded-lg border border-line bg-white p-5 shadow-[0_24px_60px_-28px_rgb(15_23_42/0.35)] sm:p-7">
+          <p class="font-semibold">Umzugspreis in 60 Sekunden</p>
+          <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <label class="field-label" for="q-from">Von</label>
+              <input class="field" id="q-from" data-mirror="from" autocomplete="off" placeholder="Ort / PLZ" />
+            </div>
+            <div>
+              <label class="field-label" for="q-to">Nach</label>
+              <input class="field" id="q-to" data-mirror="to" autocomplete="off" placeholder="Ort / PLZ" />
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="mb-3 flex items-baseline justify-between">
+              <label class="text-sm font-semibold" for="q-sqm">Wohnfläche</label>
+              <div class="flex items-baseline gap-1">
+                <input type="number" id="q-sqm" data-mirror="sqm" min="10" max="500" value="70" inputmode="numeric" class="w-14 border-b border-line bg-transparent text-right text-xl font-semibold tabular-nums outline-none focus:border-navy" />
+                <span class="text-navy-700">m²</span>
+              </div>
+            </div>
+            <input type="range" id="q-sqm-range" min="15" max="250" step="5" value="70" data-sync="q-sqm" class="slider" aria-label="Wohnfläche Schieberegler" />
+          </div>
+          <div class="mt-6 flex items-end justify-between gap-4 border-t border-navy pt-4" aria-live="polite">
+            <p class="text-sm text-navy-700">Ihr Preis<br />inkl. MwSt.</p>
+            <p data-price class="text-4xl font-bold tracking-tight tabular-nums">–</p>
+          </div>
+          <button type="button" data-secure class="btn-primary mt-5 w-full">Diesen Festpreis sichern</button>
+          <a href="#rechner" class="mt-3 block text-center text-sm text-navy-700 hover:text-navy">Etage, Aufzug &amp; Extras anpassen ↓</a>
+        </div>
+        <a data-whatsapp data-whatsapp-text="Hallo Einfach Umzüge, ich möchte einen Festpreis für meinen Umzug. Ich schicke Ihnen Fotos meiner Wohnung." href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="-mt-4 flex items-center gap-4 rounded-lg border border-line p-4 transition hover:border-[#25D366] lg:hidden">
+            <span class="grid size-11 shrink-0 place-items-center rounded-full bg-[#25D366] text-white"><svg class="size-6"><use href="#i-whatsapp"/></svg></span>
+            <span><span class="block font-semibold">📷 Fotos per WhatsApp schicken</span><span class="text-sm text-navy-700">Festpreis in 1 Stunde – ganz ohne Formular</span></span>
+          </a>
       </div>
 
       <div class="container-x">
@@ -235,7 +272,7 @@
             <div class="mt-12 border-t border-navy pt-6" aria-live="polite">
               <div class="flex items-end justify-between gap-4">
                 <p class="text-sm text-navy-700">Ihr Preis<br />inkl. MwSt.</p>
-                <p id="price" class="text-5xl font-bold tracking-tight tabular-nums sm:text-6xl">–</p>
+                <p id="price" data-price class="text-5xl font-bold tracking-tight tabular-nums sm:text-6xl">–</p>
               </div>
               <details class="mt-3 text-sm text-navy-700">
                 <summary class="cursor-pointer hover:text-navy">Aufschlüsselung</summary>
@@ -244,8 +281,14 @@
               <p class="mt-3 text-sm text-navy-700"><span class="text-accent">✓</span> Bezahlung auch über das Jobcenter möglich – wir rechnen direkt mit dem Amt ab.</p>
             </div>
 
-            <form id="lead-form" class="mt-10 grid gap-4 sm:grid-cols-3" novalidate>
-              <p class="font-semibold sm:col-span-3">Verbindliches Festpreis-Angebot anfordern</p>
+            <!-- Schritt 1: Preis sehen → Schritt 2: Kontaktdaten -->
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <button type="button" data-secure class="btn-primary sm:flex-1">Diesen Festpreis sichern</button>
+              <a data-whatsapp data-whatsapp-text="Hallo Einfach Umzüge, ich möchte einen Festpreis für meinen Umzug. Ich schicke Ihnen Fotos meiner Wohnung." href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> Lieber Fotos per WhatsApp</a>
+            </div>
+
+            <form id="lead-form" class="mt-10 grid gap-4 border-t border-line pt-8 sm:grid-cols-3" novalidate hidden>
+              <p class="sm:col-span-3"><span class="font-semibold">Fast geschafft!</span> <span class="text-navy-700">Wir melden uns innerhalb von 24 Stunden mit Ihrem verbindlichen Festpreis.</span></p>
               <!-- Honeypot gegen Spam-Bots: für Menschen unsichtbar -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
               <div>
@@ -264,11 +307,8 @@
                 <input type="checkbox" name="jobcenter" class="size-4 shrink-0 accent-accent" />
                 <span>Bezahlung über das Jobcenter (Kostenübernahme)</span>
               </label>
-              <label class="flex items-start gap-2 text-xs leading-relaxed text-navy-700 sm:col-span-3">
-                <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-accent" />
-                <span>Ich stimme der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage zu (<a href="/datenschutz.html" class="underline">Datenschutz</a>).</span>
-              </label>
-              <button type="submit" class="btn-primary sm:col-span-3">Angebot anfordern</button>
+              <button type="submit" class="btn-primary sm:col-span-3">Festpreis-Angebot anfordern</button>
+              <p class="text-xs text-navy-700 sm:col-span-3">Mit dem Absenden akzeptieren Sie unsere <a href="/datenschutz.html" class="underline">Datenschutzerklärung</a>. Ihre Angaben nutzen wir nur für Ihr Angebot.</p>
               <p data-status class="min-h-5 text-sm text-navy-700 sm:col-span-3" role="status"></p>
             </form>
           </div>
@@ -435,6 +475,7 @@
     </div>
   </footer>
 
+  <a id="wa-float" data-whatsapp href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="fixed right-6 bottom-6 z-40 hidden items-center gap-2 rounded-full bg-[#25D366] py-3 pr-5 pl-4 font-semibold text-navy shadow-[0_10px_30px_-8px_rgb(15_23_42/0.45)] transition hover:-translate-y-0.5 md:flex" aria-label="Per WhatsApp schreiben"><svg class="size-6"><use href="#i-whatsapp"/></svg> WhatsApp</a>
   <div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-line bg-white p-2.5 md:hidden">
     <a href="#rechner" class="btn-primary flex-1 !py-2.5 text-sm">Preis berechnen</a>
     <a data-whatsapp href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="btn-outline !px-3.5 !py-2.5" aria-label="WhatsApp"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg></a>

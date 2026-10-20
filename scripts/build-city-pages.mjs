@@ -93,6 +93,7 @@ const SPRITE = grab(/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" class="hidden
 const HEADER = grab(/<header[\s\S]*?<\/header>/);
 const FOOTER = grab(/<footer[\s\S]*?<\/footer>/);
 const MOBILE = grab(/<div class="fixed inset-x-0 bottom-0[\s\S]*?<\/div>/);
+const WA_FLOAT = grab(/<a id="wa-float"[\s\S]*?<\/a>/);
 
 function page(city) {
   const d = data(city);
@@ -274,6 +275,7 @@ function shell({ title, description, path, ld, body }) {
   ${HEADER}
   ${body}
   ${FOOTER}
+  ${WA_FLOAT}
   ${MOBILE}
 </body>
 </html>
