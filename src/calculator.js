@@ -14,7 +14,7 @@ function airKm(a, b) {
 export const roadKm = (a, b) => Math.round(airKm(a, b) * P.roadFactor);
 
 /** Reine Preisfunktion – ohne DOM, damit leicht testbar. */
-export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, liftTo, packing, assembly, parking, disposal }) {
+export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, liftTo, packing, assembly, parking, disposal, kitchen, kitchenM = 0 }) {
   const lines = [];
   const transport = P.base + sqm * P.perSqm;
   lines.push(['Transport & Team', transport]);
@@ -33,6 +33,7 @@ export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, li
   if (assembly) lines.push(['Möbel De-/Montage', sqm * P.assemblyPerSqm]);
   if (parking) lines.push(['Halteverbotszonen (2×)', P.parkingZone * 2]);
   if (disposal) lines.push(['Entsorgung', P.disposal]);
+  if (kitchen) lines.push([`Küche ab- & aufbauen (${String(kitchenM).replace('.', ',')} m)`, Math.max(P.kitchenMin, kitchenM * P.kitchenPerM)]);
 
   const total = Math.max(P.minimum, lines.reduce((s, [, v]) => s + v, 0));
   return { lines, price: round10(total) };
@@ -140,6 +141,8 @@ export async function initCalculator(root) {
       assembly: d.has('assembly'),
       parking: d.has('parking'),
       disposal: d.has('disposal'),
+      kitchen: d.has('kitchen'),
+      kitchenM: Number(d.get('kitchenM')) || 0,
     };
   };
 
@@ -189,6 +192,11 @@ export async function initCalculator(root) {
       return li;
     }));
   };
+
+  // Küchenlänge nur zeigen, wenn „Küche" gewählt ist
+  const toggleKitchen = () => $('kitchen-size').classList.toggle('hidden', !form.elements.kitchen.checked);
+  form.addEventListener('input', toggleKitchen);
+  toggleKitchen();
 
   form.addEventListener('input', render);
   render();

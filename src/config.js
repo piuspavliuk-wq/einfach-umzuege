@@ -30,5 +30,7 @@ export const PRICING = {
   assemblyPerSqm: 2.4,    // Möbel De-/Montage
   parkingZone: 129,       // Halteverbotszone je Adresse
   disposal: 149,          // Entrümpelung / Entsorgung (Pauschale)
+  kitchenPerM: 190,       // Küche ab- & aufbauen je laufendem Meter (Markt: Abbau 80–150 + Aufbau 150–300 €/m)
+  kitchenMin: 450,        // Mindestpreis Küche (auch kleine Küchen ≈ halber Arbeitstag)
   minimum: 299,
 };

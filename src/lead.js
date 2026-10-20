@@ -9,6 +9,7 @@ function payload({ input, result }, lead) {
     input.assembly && 'Möbelmontage',
     input.parking && 'Halteverbotszone',
     input.disposal && 'Entsorgung',
+    input.kitchen && `Küche ab-/aufbauen (${String(input.kitchenM).replace('.', ',')} m)`,
   ].filter(Boolean).join(', ') || 'keine';
   const floor = (n, lift) => `${n === 0 ? 'EG' : `${n}. OG`} ${lift ? 'mit' : 'ohne'} Aufzug`;
   return {
