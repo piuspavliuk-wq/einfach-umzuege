@@ -10,8 +10,7 @@ export const COMPANY = {
 // Google-Apps-Script-URL (endet auf /exec) – Anfragen landen in Google Sheets + E-Mail.
 // Einrichtung: google-apps-script/ANLEITUNG.md
 // Leer lassen → Anfrage wird als vorausgefüllte WhatsApp-Nachricht geöffnet.
-// Vorübergehend leer, bis das Google-Skript funktioniert. Alte URL: https://script.google.com/macros/s/AKfycbznZVhxjQwZtVgHM_ssQOSG8iB_oAgpiTQNcFTa4hdwX5c52E5s-qLTF3bsW6dErqXC/exec
-export const FORM_ENDPOINT = '';
+export const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzJtClQCrL1ivkO470ue-UTHxeTj2Hp1nJ3Dr9xPwF9OXWBLRbf-ZsSzOS4QZHsmWh_Jw/exec';
 
 // Firmensitz: Startpunkt der Anfahrt
 export const BASE = { name: 'Raunheim', lat: 50.0097, lon: 8.4536 };
