@@ -8,6 +8,8 @@
 
 // Optional: andere Empfänger-Adresse. Leer = E-Mail an das Google-Konto, dem dieses Skript gehört.
 const NOTIFY_EMAIL = ''; // z. B. 'name@gmail.com' – im Google-Editor eintragen, nicht im öffentlichen Repo
+// Rückruf-Wünsche gehen zusätzlich immer an diese Adresse(n), Komma-getrennt
+const CALLBACK_EMAIL = 'anfrage@einfach-umzuege.de';
 const SHEET_NAME = 'Anfragen';
 
 const COLUMNS = [
@@ -88,7 +90,10 @@ function appendRow(row) {
 }
 
 function sendMail(row) {
-  const to = NOTIFY_EMAIL || Session.getEffectiveUser().getEmail();
+  const base = NOTIFY_EMAIL || Session.getEffectiveUser().getEmail();
+  const callbackFlag = row.type === 'Rückruf';
+  // Empfänger ohne Dubletten (z. B. falls anfrage@ schon in NOTIFY_EMAIL steht)
+  const to = [...new Set(`${base},${callbackFlag ? CALLBACK_EMAIL : ''}`.split(',').map((x) => x.trim()).filter(Boolean))].join(',');
   const phoneDigits = String(row.phone).replace(/[^\d+]/g, '');
   // Deutsche Nummer für WhatsApp: 0170… → 49170…
   const wa = phoneDigits.replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '49');
