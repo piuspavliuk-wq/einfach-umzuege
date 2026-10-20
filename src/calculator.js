@@ -47,6 +47,9 @@ function cityFinder(entries) {
   return (query) => {
     const q = norm(query);
     if (q.length < 2) return null;
+    // Postleitzahl: „65479" oder „65479 Raunheim"
+    const zip = query.trim().match(/^(\d{5})\b/);
+    if (zip) return entries.find((c) => c.plz.includes(zip[1])) ?? null;
     return exact.get(q) ?? entries.find((c) => c.key.startsWith(q)) ?? null;
   };
 }
@@ -78,9 +81,10 @@ export async function initCalculator(root) {
   const { default: { states, cities } } = await import('./cities.json');
   // Relevanz: nah und groß zuerst (Köln vor Kölbingen, Bad Soden vor Bad Hersfeld)
   const entries = cities
-    .map(([name, lat, lon, state, pop]) => {
+    .map(([name, lat, lon, state, pop, plz]) => {
       const km = roadKm(BASE, { lat, lon });
-      return { name, lat, lon, state, key: norm(name), km, rank: (km + 5) / pop ** 0.3 };
+      // kleine Orte ohne Einwohnerzahl wie Dörfer mit ~300 Einwohnern gewichten
+      return { name, lat, lon, state, pop, plz: plz ? plz.split(' ') : [], key: norm(name), km, rank: (km + 5) / Math.max(pop, 300) ** 0.3 };
     })
     .sort((a, b) => a.rank - b.rank);
   const findCity = cityFinder(entries);

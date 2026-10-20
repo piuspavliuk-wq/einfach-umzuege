@@ -25,7 +25,10 @@ export function attachCityCombobox(input, { entries, states, norm, meta }) {
   input.setAttribute('aria-expanded', 'false');
 
   // Orte je Bundesland, alphabetisch
-  const byState = states.map((_, i) => entries.filter((c) => c.state === i).sort((a, b) => collator.compare(a.name, b.name)));
+  const BROWSE_MIN_POP = 3000; // kleinere Orte über die Suche (Name oder PLZ)
+  const byState = states.map((_, i) => entries
+    .filter((c) => c.state === i && c.pop >= BROWSE_MIN_POP)
+    .sort((a, b) => collator.compare(a.name, b.name)));
 
   let items = []; // { label, meta, run, city?, kind }
   let active = -1;
@@ -66,7 +69,7 @@ export function attachCityCombobox(input, { entries, states, norm, meta }) {
   };
 
   /** Liste zeichnen: header = optionale Kopfzeile, rows = auswählbare Einträge */
-  const paint = (rows, { header, empty, q = '', activeIndex = 0 } = {}) => {
+  const paint = (rows, { header, empty, footer, q = '', activeIndex = 0 } = {}) => {
     items = rows;
     const nodes = rows.map((item, i) => {
       const li = el('li', `city-option city-option--${item.kind}`,
@@ -81,6 +84,7 @@ export function attachCityCombobox(input, { entries, states, norm, meta }) {
     });
     if (header) nodes.unshift(el('li', 'city-header', header));
     if (!rows.length && empty) nodes.push(el('li', 'city-empty', empty));
+    if (footer) nodes.push(el('li', 'city-empty', footer));
     list.replaceChildren(...nodes);
     list.scrollTop = 0;
     open(true);
@@ -90,7 +94,7 @@ export function attachCityCombobox(input, { entries, states, norm, meta }) {
   const showStates = (activeIndex = 0) => paint(states.map((name, i) => ({
     kind: 'state',
     label: name,
-    meta: `${byState[i].length} Orte`,
+    meta: `${byState[i].length} Städte`,
     run: () => showState(i),
   })), { header: 'Bundesland wählen', activeIndex });
 
@@ -98,12 +102,28 @@ export function attachCityCombobox(input, { entries, states, norm, meta }) {
     const back = { kind: 'back', label: '← Alle Bundesländer', run: () => showStates(i) };
     const cities = byState[i].map((city) => ({ kind: 'city', label: city.name, meta: meta(city), city, run: () => choose(city) }));
     const idx = selected ? cities.findIndex((r) => r.city === selected) + 1 : 1;
-    paint([back, ...cities], { header: states[i], activeIndex: idx });
+    paint([back, ...cities], {
+      header: `${states[i]} · Städte & Gemeinden`,
+      footer: 'Ihr Ort fehlt? Einfach Namen oder PLZ eintippen – auch Dörfer und Stadtteile.',
+      activeIndex: idx,
+    });
   };
 
   const showSearch = () => {
     const q = norm(input.value);
     if (q.length < 2) { showStates(); return; }
+    // Suche nach Postleitzahl (ab 2 Ziffern)
+    if (/^\d+$/.test(q)) {
+      const rows = entries
+        .filter((c) => c.plz.some((z) => z.startsWith(q)))
+        .slice(0, MAX_RESULTS)
+        .map((city) => ({
+          kind: 'city', label: city.name, city, run: () => choose(city),
+          meta: `${city.plz.find((z) => z.startsWith(q))} · ${meta(city)}`,
+        }));
+      paint(rows, { empty: 'Keine PLZ in unserem 200-km-Gebiet gefunden' });
+      return;
+    }
     // Erst Treffer am Wortanfang, dann irgendwo im Namen (Einträge sind nach Relevanz sortiert)
     const starts = entries.filter((c) => c.key.startsWith(q));
     const contains = entries.filter((c) => !c.key.startsWith(q) && c.key.includes(q));

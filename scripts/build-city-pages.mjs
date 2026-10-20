@@ -18,7 +18,7 @@ const CITIES = [
   ['Mainz', 'Mainz', 'Mainz', 'mainz'],
   ['Darmstadt', 'Darmstadt', 'Darmstadt', 'darmstadt'],
   ['Offenbach', 'Offenbach am Main', 'Offenbach', 'offenbach'],
-  ['Rüsselsheim', 'Rüsselsheim am Main', 'Rüsselsheim', 'ruesselsheim'],
+  ['Rüsselsheim am Main', 'Rüsselsheim am Main', 'Rüsselsheim', 'ruesselsheim'],
   ['Raunheim', 'Raunheim', 'Raunheim', 'raunheim'],
   ['Hanau am Main', 'Hanau', 'Hanau', 'hanau'],
   ['Bad Homburg vor der Höhe', 'Bad Homburg vor der Höhe', 'Bad Homburg', 'bad-homburg'],
