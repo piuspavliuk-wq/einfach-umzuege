@@ -17,6 +17,11 @@
   html, body { overflow-x: clip; }
   html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
   body { @apply bg-white text-navy font-sans antialiased; }
+  /* Tailwind v4 setzt bei <button> den Standard-Cursor – überall „Hand" für Klickbares */
+  button:not(:disabled), [role='button'], summary, select,
+  input[type='checkbox'], input[type='radio'], input[type='range'],
+  label:has(input[type='checkbox']), label:has(input[type='radio']) { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 }
 
