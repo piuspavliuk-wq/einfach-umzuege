@@ -43,6 +43,52 @@ function summary(p) {
   ].join('\n');
 }
 
+
+// --- Rückmeldung nach dem Absenden: deutlich sichtbar statt kleiner Statuszeile ---
+const el = (tag, className, ...children) => {
+  const e = document.createElement(tag);
+  if (className) e.className = className;
+  e.append(...children);
+  return e;
+};
+
+/** Formular durch eine Erfolgsmeldung ersetzen; „Neue Anfrage" bringt es zurück */
+function showSuccess(form, { title, text, details = [] }) {
+  const check = el('span', 'grid size-12 shrink-0 place-items-center rounded-full bg-[#16a34a] text-white');
+  check.innerHTML = '<svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  const again = el('button', 'mt-5 text-sm font-semibold text-navy-700 underline underline-offset-4 hover:text-navy', 'Weitere Anfrage senden');
+  again.type = 'button';
+  const panel = el('div', 'success-panel mt-6 rounded-lg border border-[#16a34a]/30 bg-[#f0fdf4] p-6 sm:col-span-3',
+    el('div', 'flex items-start gap-4', check,
+      el('div', '',
+        el('p', 'text-xl font-bold', title),
+        el('p', 'mt-1 leading-relaxed text-navy-700', text),
+        ...(details.length ? [el('ul', 'mt-3 space-y-1 text-sm text-navy-700', ...details.map((d) => el('li', '', d)))] : []),
+      )),
+    again);
+  panel.setAttribute('role', 'status');
+  panel.tabIndex = -1;
+  form.hidden = true;
+  form.after(panel);
+  panel.focus({ preventScroll: true });
+  panel.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+  again.addEventListener('click', () => { panel.remove(); form.hidden = false; });
+}
+
+/** Button während des Sendens sperren und beschriften */
+function sending(button, on) {
+  if (on) { button.dataset.label = button.textContent; button.textContent = 'Wird gesendet …'; }
+  else if (button.dataset.label) button.textContent = button.dataset.label;
+  button.disabled = on;
+  button.classList.toggle('opacity-70', on);
+}
+
+/** Fehlermeldung rot hervorheben */
+const showError = (status, ...nodes) => {
+  status.classList.add('text-red-600');
+  status.replaceChildren(...nodes);
+};
+
 const whatsappUrl = (text) => `https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(text)}`;
 
 export function initLeadForm(form, getEstimate) {
@@ -68,8 +114,9 @@ export function initLeadForm(form, getEstimate) {
       return;
     }
 
-    submit.disabled = true;
-    status.textContent = 'Wird gesendet …';
+    sending(submit, true);
+    status.classList.remove('text-red-600');
+    status.textContent = '';
     try {
       // text/plain vermeidet den CORS-Preflight, den Google Apps Script nicht beantwortet
       const res = await fetch(FORM_ENDPOINT, {
@@ -80,10 +127,14 @@ export function initLeadForm(form, getEstimate) {
       const body = await res.json().catch(() => ({}));
       if (!res.ok || !body.ok) throw new Error(body.error || res.statusText);
       form.reset();
-      status.textContent = 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden mit Ihrem Festpreis-Angebot.';
+      showSuccess(form, {
+        title: `Vielen Dank, ${data.name}!`,
+        text: 'Ihre Anfrage ist bei uns angekommen. Wir melden uns innerhalb von 24 Stunden mit Ihrem verbindlichen Festpreis.',
+        details: [`Umzug: ${data.from} → ${data.to}`, `Online-Preis: ${eur.format(data.price)}`, `Wir erreichen Sie unter: ${data.phone}`],
+      });
     } catch {
       // Anfrage nicht verlieren: WhatsApp als Ausweg anbieten
-      status.replaceChildren(
+      showError(status,
         'Senden fehlgeschlagen. ',
         Object.assign(document.createElement('a'), {
           href: whatsappUrl(summary(data)), target: '_blank', rel: 'noopener',
@@ -92,7 +143,7 @@ export function initLeadForm(form, getEstimate) {
         `, anrufen: ${COMPANY.phone} oder per E-Mail: ${COMPANY.email}`,
       );
     } finally {
-      submit.disabled = false;
+      sending(submit, false);
     }
   });
 }
@@ -114,8 +165,9 @@ export function initCallbackForm(form) {
       return;
     }
 
-    submit.disabled = true;
-    status.textContent = 'Wird gesendet …';
+    sending(submit, true);
+    status.classList.remove('text-red-600');
+    status.textContent = '';
     try {
       // Felder so gefüllt, dass auch ältere Skript-Versionen eine lesbare Zeile/E-Mail erzeugen
       const res = await fetch(FORM_ENDPOINT, {
@@ -129,9 +181,12 @@ export function initCallbackForm(form) {
       const body = await res.json().catch(() => ({}));
       if (!res.ok || !body.ok) throw new Error(body.error || res.statusText);
       form.reset();
-      status.textContent = 'Danke! Wir rufen Sie zurück – meist innerhalb von 1 Stunde (Mo–Sa, 7–20 Uhr).';
+      showSuccess(form, {
+        title: `Danke, ${name.trim()}!`,
+        text: `Ihre Rückruf-Anfrage ist angekommen. Wir rufen Sie unter ${phone.trim()} zurück – meist innerhalb von 1 Stunde (Mo–Sa, 7–20 Uhr).`,
+      });
     } catch {
-      status.replaceChildren(
+      showError(status,
         'Senden fehlgeschlagen. Bitte rufen Sie uns an: ',
         Object.assign(document.createElement('a'), { href: `tel:${COMPANY.phone.replace(/\s/g, '')}`, className: 'underline font-semibold', textContent: COMPANY.phone }),
         ' oder ',
@@ -139,7 +194,7 @@ export function initCallbackForm(form) {
         '.',
       );
     } finally {
-      submit.disabled = false;
+      sending(submit, false);
     }
   });
 }

@@ -117,3 +117,8 @@ select.field {
 /* Auswahlliste darf breiter als ein schmales Feld sein (Mini-Rechner, Handy) */
 .city-list { min-width: min(20rem, calc(100vw - 2rem)); }
 #q-to-listbox { left: auto; }
+
+/* Erfolgsmeldung nach dem Absenden */
+@keyframes success-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+.success-panel { animation: success-in .35s ease-out both; outline: none; }
+@media (prefers-reduced-motion: reduce) { .success-panel { animation: none; } }
