@@ -8,6 +8,9 @@
 
 // Optional: andere Empfänger-Adresse. Leer = E-Mail an das Google-Konto, dem dieses Skript gehört.
 const NOTIFY_EMAIL = ''; // z. B. 'name@gmail.com' – im Google-Editor eintragen, nicht im öffentlichen Repo
+// Wird unter der /exec-URL angezeigt – so lässt sich prüfen, ob die neue Version veröffentlicht ist
+const VERSION = 3;
+
 // Rückruf-Wünsche gehen zusätzlich immer an diese Adresse(n), Komma-getrennt
 const CALLBACK_EMAIL = 'anfrage@einfach-umzuege.de';
 const SHEET_NAME = 'Anfragen';
@@ -67,7 +70,7 @@ function testRueckruf() {
 
 // Zum Testen im Browser: zeigt, dass der Endpoint erreichbar ist
 function doGet() {
-  return json({ ok: true, service: 'Einfach Umzüge Anfragen' });
+  return json({ ok: true, service: 'Einfach Umzüge Anfragen', version: VERSION, callbackTo: CALLBACK_EMAIL });
 }
 
 function appendRow(row) {
