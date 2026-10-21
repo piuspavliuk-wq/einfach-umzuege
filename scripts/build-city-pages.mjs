@@ -91,6 +91,7 @@ const grab = (re) => {
 };
 const SPRITE = grab(/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" class="hidden"[\s\S]*?<\/svg>/);
 const HEADER = grab(/<header[\s\S]*?<\/header>/);
+const ANNOUNCEMENT = grab(/<div id="announcement"[\s\S]*?<\/div>/);
 const FOOTER = grab(/<footer[\s\S]*?<\/footer>/);
 const MOBILE = grab(/<div class="fixed inset-x-0 bottom-0[\s\S]*?<\/div>/);
 const CONTACT = grab(/<section id="kontakt"[\s\S]*?<\/section>/);
@@ -267,6 +268,7 @@ function shell({ title, description, path, ld, body }) {
   <!-- Automatisch erzeugt von scripts/build-city-pages.mjs – nicht von Hand bearbeiten -->
   ${SPRITE}
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2">Zum Inhalt springen</a>
+  ${ANNOUNCEMENT}
   ${HEADER}
   ${body}
   ${FOOTER}
