@@ -93,11 +93,21 @@ export async function initCalculator(root) {
   const meta = (city) => `${city.km} km`;
   ['from', 'to', 'q-from', 'q-to'].forEach((id) => $(id) && attachCityCombobox($(id), { entries, states, norm, meta }));
 
+  // Wurde der Mini-Rechner oben benutzt? → unten nur Zusammenfassung statt Feldern
+  let heroUsed = false;
+  let editingBasics = false;
+  let syncing = false;
+  ['q-from', 'q-to', 'q-sqm', 'q-sqm-range'].forEach((id) => $(id)?.addEventListener('input', () => {
+    if (!syncing) heroUsed = true;
+  }));
+
   // Mini-Rechner (data-mirror="<id>") und großer Rechner in beide Richtungen koppeln
   const sync = (a, b) => a.addEventListener('input', () => {
     if (b.value === a.value) return;
     b.value = a.value;
+    syncing = true;
     b.dispatchEvent(new Event('input', { bubbles: true }));
+    syncing = false;
   });
   document.querySelectorAll('[data-mirror]').forEach((mini) => {
     const main = $(mini.dataset.mirror);
@@ -168,12 +178,38 @@ export async function initCalculator(root) {
     return 'Ort nicht gefunden – bitte Entfernung unten einstellen.';
   };
 
+  // Ein-/Ausklappen mit Animation; eingeklappte Felder sind per Tab nicht erreichbar (inert)
+  const setCollapsed = (el, collapsed) => {
+    if (!el || el.classList.contains('is-collapsed') === collapsed) return;
+    el.classList.add('is-animating');
+    el.classList.toggle('is-collapsed', collapsed);
+    el.inert = collapsed;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('is-animating'), 350);
+  };
+  const updateBasics = (input) => {
+    const compact = heroUsed && input.routeKnown && !editingBasics;
+    setCollapsed($('basics'), compact);
+    setCollapsed($('basics-summary'), !compact);
+    if (compact) {
+      document.querySelector('[data-summary-route]').textContent = `${input.from} → ${input.to}`;
+      document.querySelector('[data-summary-meta]').textContent = `${input.sqm} m² · ca. ${input.km} km Strecke`;
+    }
+  };
+  document.querySelector('[data-edit-basics]')?.addEventListener('click', () => {
+    editingBasics = true;
+    render();
+    setTimeout(() => $('from').focus({ preventScroll: true }), 320);
+  });
+  $('basics-summary') && ($('basics-summary').inert = true);
+
   let last;
   const render = () => {
     const input = read();
     last = { input, result: estimate(input) };
     const { result } = last;
     $('route-info').textContent = routeText(input);
+    updateBasics(input);
     // Preis im großen Rechner und im Mini-Rechner; ohne Orte ein Hinweis statt „– €"
     document.querySelectorAll('[data-price]').forEach((price) => {
       price.classList.toggle('price-empty', !input.ready);

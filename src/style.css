@@ -147,3 +147,11 @@ select.field {
   [data-menu-open] .nav-panel { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition: opacity .2s ease, transform .2s ease; }
 }
 @media (prefers-reduced-motion: reduce) { .nav-panel, .burger span { transition: none !important; } }
+
+/* Auf-/Zuklappen per Höhe (grid 1fr ↔ 0fr) – Inhalt nur während der Animation/zu abschneiden,
+   damit die Städte-Auswahlliste im offenen Zustand nicht abgeschnitten wird */
+.collapsible { display: grid; grid-template-rows: 1fr; opacity: 1; transition: grid-template-rows .3s ease, opacity .25s ease; }
+.collapsible.is-collapsed { grid-template-rows: 0fr; opacity: 0; }
+.collapsible-inner { min-height: 0; }
+.collapsible.is-collapsed > .collapsible-inner, .collapsible.is-animating > .collapsible-inner { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .collapsible { transition: none; } }
