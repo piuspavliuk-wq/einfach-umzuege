@@ -280,6 +280,26 @@
               </div>
 
               <fieldset>
+                <legend class="field-label">Wie voll ist Ihre Wohnung?</legend>
+                <div class="flex flex-wrap gap-2">
+                  <label class="chip"><input type="radio" name="fill" value="wenig" class="sr-only" /> Wenig möbliert</label>
+                  <label class="chip"><input type="radio" name="fill" value="normal" class="sr-only" checked /> Normal</label>
+                  <label class="chip"><input type="radio" name="fill" value="voll" class="sr-only" /> Voll möbliert</label>
+                </div>
+                <p class="mt-2 text-xs text-navy-700">Wenig: kaum Möbel, z.&nbsp;B. WG-Zimmer · Voll: viele Möbel, volle Schränke, Kinderzimmer</p>
+              </fieldset>
+
+              <fieldset>
+                <legend class="field-label">Besondere Gegenstände</legend>
+                <div class="flex flex-wrap gap-2">
+                  <label class="chip"><input type="checkbox" name="piano" class="sr-only" /> Klavier</label>
+                  <label class="chip"><input type="checkbox" name="washer" class="sr-only" /> Waschmaschine</label>
+                  <label class="chip"><input type="checkbox" name="bigWardrobe" class="sr-only" /> Schrank über 2&nbsp;m</label>
+                  <label class="chip"><input type="checkbox" name="cellar" class="sr-only" /> Keller / Dachboden</label>
+                </div>
+              </fieldset>
+
+              <fieldset>
                 <legend class="field-label">Zusatzleistungen</legend>
                 <div class="flex flex-wrap gap-2">
                   <label class="chip"><input type="checkbox" name="packing" class="sr-only" /> Verpackung</label>

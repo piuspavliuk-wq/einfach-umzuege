@@ -32,5 +32,12 @@ export const PRICING = {
   disposal: 149,          // Entrümpelung / Entsorgung (Pauschale)
   kitchenPerM: 190,       // Küche ab- & aufbauen je laufendem Meter (Markt: Abbau 80–150 + Aufbau 150–300 €/m)
   kitchenMin: 450,        // Mindestpreis Küche (auch kleine Küchen ≈ halber Arbeitstag)
+  // Möblierung: Faktor auf alles, was vom Umzugsgut-Volumen abhängt (Tragen, Etagen, Verpackung, Montage)
+  fill: { wenig: 0.8, normal: 1, voll: 1.25 },
+  // Besondere Gegenstände (Zuschläge innerhalb eines Umzugs)
+  piano: 250,             // Klavier/Pianino (Markt: 120–400 € innerorts, mehr bei Etagen)
+  washer: 39,             // Waschmaschine sichern & tragen
+  bigWardrobe: 89,        // Schrank über 2 m (Zerlegen/Tragen)
+  cellar: 129,            // Keller oder Dachboden zusätzlich
   minimum: 299,
 };

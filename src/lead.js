@@ -10,7 +10,12 @@ function payload({ input, result }, lead) {
     input.parking && 'Halteverbotszone',
     input.disposal && 'Entsorgung',
     input.kitchen && `Küche ab-/aufbauen (${String(input.kitchenM).replace('.', ',')} m)`,
+    input.piano && 'Klavier',
+    input.washer && 'Waschmaschine',
+    input.bigWardrobe && 'Schrank > 2 m',
+    input.cellar && 'Keller/Dachboden',
   ].filter(Boolean).join(', ') || 'keine';
+  const fillText = { wenig: 'wenig möbliert', normal: 'normal möbliert', voll: 'voll möbliert' }[input.fill] ?? '';
   const floor = (n, lift) => `${n === 0 ? 'EG' : `${n}. OG`} ${lift ? 'mit' : 'ohne'} Aufzug`;
   return {
     name: lead.name.trim(),
@@ -23,7 +28,7 @@ function payload({ input, result }, lead) {
     approachKm: input.approachKm || '',
     floorFrom: floor(input.floorFrom, input.liftFrom),
     floorTo: floor(input.floorTo, input.liftTo),
-    extras,
+    extras: `${fillText} · ${extras}`,
     jobcenter: lead.jobcenter ? 'Ja' : 'Nein',
     price: result.price,
     website: lead.website ?? '', // Honeypot

@@ -14,10 +14,14 @@ function airKm(a, b) {
 export const roadKm = (a, b) => Math.round(airKm(a, b) * P.roadFactor);
 
 /** Reine Preisfunktion – ohne DOM, damit leicht testbar. */
-export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, liftTo, packing, assembly, parking, disposal, kitchen, kitchenM = 0 }) {
+export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, liftTo, packing, assembly, parking, disposal, kitchen, kitchenM = 0,
+  fill = 'normal', piano, washer, bigWardrobe, cellar }) {
   const lines = [];
-  const transport = P.base + sqm * P.perSqm;
-  lines.push(['Transport & Team', transport]);
+  const f = P.fill[fill] ?? 1;
+  const volume = sqm * f; // „gefühlte" Wohnfläche je nach Möblierung
+  const transport = P.base + volume * P.perSqm;
+  const fillLabel = { wenig: ' – wenig möbliert', voll: ' – voll möbliert' }[fill] ?? '';
+  lines.push([`Transport & Team${fillLabel}`, transport]);
 
   const extraApproach = Math.max(0, approachKm - P.includedApproachKm);
   if (extraApproach) lines.push([`Anfahrt ab ${BASE.name} (${approachKm} km)`, extraApproach * P.approachPerKm]);
@@ -29,10 +33,14 @@ export function estimate({ km, approachKm, sqm, floorFrom, floorTo, liftFrom, li
   const floors = transport * (floorFactor(floorFrom, liftFrom) + floorFactor(floorTo, liftTo));
   if (floors) lines.push(['Etagen-Zuschlag', floors]);
 
-  if (packing) lines.push(['Verpackungsservice', sqm * P.packingPerSqm]);
-  if (assembly) lines.push(['Möbel De-/Montage', sqm * P.assemblyPerSqm]);
+  if (packing) lines.push(['Verpackungsservice', volume * P.packingPerSqm]);
+  if (assembly) lines.push(['Möbel De-/Montage', volume * P.assemblyPerSqm]);
   if (parking) lines.push(['Halteverbotszonen (2×)', P.parkingZone * 2]);
   if (disposal) lines.push(['Entsorgung', P.disposal]);
+  if (piano) lines.push(['Klavier', P.piano]);
+  if (washer) lines.push(['Waschmaschine', P.washer]);
+  if (bigWardrobe) lines.push(['Schrank über 2 m', P.bigWardrobe]);
+  if (cellar) lines.push(['Keller / Dachboden', P.cellar]);
   if (kitchen) lines.push([`Küche ab- & aufbauen (${String(kitchenM).replace('.', ',')} m)`, Math.max(P.kitchenMin, kitchenM * P.kitchenPerM)]);
 
   const total = Math.max(P.minimum, lines.reduce((s, [, v]) => s + v, 0));
@@ -153,6 +161,11 @@ export async function initCalculator(root) {
       disposal: d.has('disposal'),
       kitchen: d.has('kitchen'),
       kitchenM: Number(d.get('kitchenM')) || 0,
+      fill: d.get('fill') || 'normal',
+      piano: d.has('piano'),
+      washer: d.has('washer'),
+      bigWardrobe: d.has('bigWardrobe'),
+      cellar: d.has('cellar'),
     };
   };
 
