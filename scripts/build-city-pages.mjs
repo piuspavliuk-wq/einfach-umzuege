@@ -101,7 +101,8 @@ function page(city) {
   const d = data(city);
   const isBase = city.db === BASE.name;
   const from = d.local[1].price;
-  const title = `Umzug ${city.short} zum Festpreis – Umzugsfirma ${city.short} | Einfach Umzüge`;
+  // ≤ 60 Zeichen, damit Google nichts abschneidet; „Umzugsfirma <Stadt>" steht in Beschreibung und Seite
+  const title = `Umzug ${city.short} zum Festpreis | Einfach Umzüge`;
   const description = `Umzugsfirma für ${city.name}: Umzug zum Festpreis ab ${eur(d.local[0].price)}, voll versichert, auch samstags. Preis in 60 Sekunden online berechnen!`;
   const calcUrl = `/?von=${encodeURIComponent(city.db)}#rechner`;
 
@@ -293,7 +294,7 @@ function overview() {
     <p class="mt-14 text-navy-700">Ihr Ort ist nicht dabei? Kein Problem – im <a href="/#rechner" class="font-semibold text-accent">Preisrechner</a> finden Sie alle Orte im Umkreis von 200&nbsp;km.</p>
   </main>`;
   return shell({
-    title: 'Einsatzorte – Umzugsfirma Rhein-Main & 200 km Umkreis | Einfach Umzüge',
+    title: 'Umzugsfirma Rhein-Main & 200 km Umkreis | Einfach Umzüge',
     description: 'Umzüge zum Festpreis in Frankfurt, Wiesbaden, Mainz, Darmstadt, Köln, Stuttgart und 200 km Umkreis um Raunheim. Alle Einsatzorte im Überblick.',
     path: '/umzug/',
     ld: [{
