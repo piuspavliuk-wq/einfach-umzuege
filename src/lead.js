@@ -130,7 +130,7 @@ export function initLeadForm(form, getEstimate) {
       form.reset();
       showSuccess(form, {
         title: `Vielen Dank, ${data.name}!`,
-        text: 'Ihre Anfrage ist bei uns angekommen. Wir melden uns innerhalb von 24 Stunden mit Ihrem verbindlichen Festpreis.',
+        text: 'Ihre Anfrage ist bei uns angekommen. Wir rufen Sie meist innerhalb von 1 Stunde zurück (Mo–Sa, 7–20 Uhr) und besprechen Ihren verbindlichen Festpreis.',
         details: [`Umzug: ${data.from} → ${data.to}`, `Online-Preis: ${eur.format(data.price)}`, `Wir erreichen Sie unter: ${data.phone}`],
       });
     } catch {
