@@ -14,16 +14,20 @@ document.querySelectorAll('[data-phone]').forEach((a) => {
 });
 
 // Mobile Navigation
+// Öffnen/Schließen per Attribut am Header – Animation übernimmt CSS (.nav-panel, .burger)
+const header = document.querySelector('header');
 const toggle = document.querySelector('#nav-toggle');
 const nav = document.querySelector('#nav-menu');
-toggle?.addEventListener('click', () => {
-  const open = toggle.getAttribute('aria-expanded') === 'true';
-  toggle.setAttribute('aria-expanded', String(!open));
-  nav.classList.toggle('hidden', open);
-});
-nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
-  if (window.innerWidth < 768) { nav.classList.add('hidden'); toggle.setAttribute('aria-expanded', 'false'); }
-}));
+const setMenu = (open) => {
+  header.toggleAttribute('data-menu-open', open);
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+};
+toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+document.addEventListener('click', (e) => { if (toggle && !header.contains(e.target)) setMenu(false); });
+matchMedia('(min-width: 768px)').addEventListener('change', () => setMenu(false));
 
 const calc = document.querySelector('#rechner');
 if (calc) initCalculator(calc).then((getEstimate) => initLeadForm(calc.querySelector('#lead-form'), getEstimate));
