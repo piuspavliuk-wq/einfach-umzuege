@@ -18,7 +18,10 @@ function payload({ input, result }, lead) {
   const fillText = { wenig: 'wenig möbliert', normal: 'normal möbliert', voll: 'voll möbliert' }[input.fill] ?? '';
   const floor = (n, lift) => `${n === 0 ? 'EG' : `${n}. OG`} ${lift ? 'mit' : 'ohne'} Aufzug`;
   return {
-    name: lead.name.trim(),
+    name: `${lead.firstName.trim()} ${lead.lastName.trim()}`,
+    firstName: lead.firstName.trim(),
+    lastName: lead.lastName.trim(),
+    email: lead.email.trim(),
     phone: lead.phone.trim(),
     date: lead.date ? new Date(lead.date).toLocaleDateString('de-DE') : 'flexibel',
     from: input.from,
@@ -39,6 +42,7 @@ function summary(p) {
   return [
     `Umzugsanfrage – ${p.name}`,
     `Telefon: ${p.phone}`,
+    `E-Mail: ${p.email}`,
     `Wunschtermin: ${p.date}`,
     `Von: ${p.from} → Nach: ${p.to}`,
     `Wohnfläche: ${p.sqm} m² · Strecke: ${p.km} km · Anfahrt: ${p.approachKm ? `${p.approachKm} km` : 'unbekannt'}`,
@@ -134,9 +138,9 @@ export function initLeadForm(form, getEstimate) {
       if (!res.ok || !body.ok) throw new Error(body.error || res.statusText);
       form.reset();
       showSuccess(form, {
-        title: `Vielen Dank, ${data.name}!`,
+        title: `Vielen Dank, ${data.firstName}!`,
         text: 'Ihre Anfrage ist bei uns angekommen. Wir rufen Sie meist innerhalb von 1 Stunde zurück (Mo–Sa, 7–20 Uhr) und bestätigen Ihren Festpreis.',
-        details: [`Umzug: ${data.from} → ${data.to}`, `Ihr Festpreis: ${eur.format(data.price)}`, `Wir erreichen Sie unter: ${data.phone}`],
+        details: [`Umzug: ${data.from} → ${data.to}`, `Ihr Festpreis: ${eur.format(data.price)}`, `Wir erreichen Sie unter: ${data.phone}`, `Eine Bestätigung geht an: ${data.email}`],
       });
     } catch {
       // Anfrage nicht verlieren: WhatsApp als Ausweg anbieten

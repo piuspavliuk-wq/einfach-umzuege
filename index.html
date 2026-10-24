@@ -352,29 +352,37 @@
               <a data-whatsapp data-whatsapp-text="Hallo Einfach Umzüge, ich möchte einen Festpreis für meinen Umzug. Ich schicke Ihnen Fotos meiner Wohnung." href="https://wa.me/4915568716603" target="_blank" rel="noopener" class="btn-outline"><svg class="size-5 text-[#25D366]"><use href="#i-whatsapp"/></svg> Lieber Fotos per WhatsApp</a>
             </div>
 
-            <form id="lead-form" class="mt-10 grid gap-4 border-t border-line pt-8 sm:grid-cols-3" novalidate hidden>
-              <p class="sm:col-span-3"><span class="font-semibold">Fast geschafft!</span> <span class="text-navy-700">Wir rufen Sie meist innerhalb von 1&nbsp;Stunde zurück (Mo–Sa, 7–20 Uhr) und bestätigen Ihren Festpreis.</span></p>
+            <form id="lead-form" class="mt-10 grid gap-4 border-t border-line pt-8 sm:grid-cols-2" novalidate hidden>
+              <p class="sm:col-span-2"><span class="font-semibold">Fast geschafft!</span> <span class="text-navy-700">Wir rufen Sie meist innerhalb von 1&nbsp;Stunde zurück (Mo–Sa, 7–20 Uhr) und bestätigen Ihren Festpreis.</span></p>
               <!-- Honeypot gegen Spam-Bots: für Menschen unsichtbar -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
               <div>
-                <label class="field-label" for="lead-name">Name</label>
-                <input class="field" id="lead-name" name="name" autocomplete="name" required />
+                <label class="field-label" for="lead-name">Vorname</label>
+                <input class="field" id="lead-name" name="firstName" autocomplete="given-name" required />
               </div>
               <div>
-                <label class="field-label" for="lead-phone">Telefon</label>
+                <label class="field-label" for="lead-lastname">Nachname</label>
+                <input class="field" id="lead-lastname" name="lastName" autocomplete="family-name" required />
+              </div>
+              <div>
+                <label class="field-label" for="lead-email">E-Mail <span class="font-normal text-navy-700">(für Ihre Bestätigung)</span></label>
+                <input class="field" id="lead-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+              </div>
+              <div>
+                <label class="field-label" for="lead-phone">Telefon <span class="font-normal text-navy-700">(für den Rückruf)</span></label>
                 <input class="field" id="lead-phone" name="phone" type="tel" autocomplete="tel" required pattern="[0-9+()\/\s-]{6,}" />
               </div>
               <div>
                 <label class="field-label" for="lead-date">Wunschtermin</label>
                 <input class="field" id="lead-date" name="date" type="date" />
               </div>
-              <label class="flex items-center gap-2 text-sm sm:col-span-3">
+              <label class="flex items-center gap-2 self-end pb-3 text-sm">
                 <input type="checkbox" name="jobcenter" class="size-4 shrink-0 accent-accent" />
                 <span>Bezahlung über das Jobcenter (Kostenübernahme)</span>
               </label>
-              <button type="submit" class="btn-primary sm:col-span-3">Festpreis-Angebot anfordern</button>
-              <p class="text-xs text-navy-700 sm:col-span-3">Mit dem Absenden akzeptieren Sie unsere <a href="/datenschutz.html" class="underline">Datenschutzerklärung</a>. Ihre Angaben nutzen wir nur für Ihr Angebot.</p>
-              <p data-status class="min-h-5 text-sm text-navy-700 sm:col-span-3" role="status"></p>
+              <button type="submit" class="btn-primary sm:col-span-2">Festpreis-Angebot anfordern</button>
+              <p class="text-xs text-navy-700 sm:col-span-2">Mit dem Absenden akzeptieren Sie unsere <a href="/datenschutz.html" class="underline">Datenschutzerklärung</a>. Ihre Angaben nutzen wir nur für Ihr Angebot.</p>
+              <p data-status class="min-h-5 text-sm text-navy-700 sm:col-span-2" role="status"></p>
             </form>
           </div>
         </div>
