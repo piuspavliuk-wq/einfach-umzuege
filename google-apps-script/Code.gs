@@ -9,7 +9,7 @@
 // Optional: andere Empfänger-Adresse. Leer = E-Mail an das Google-Konto, dem dieses Skript gehört.
 const NOTIFY_EMAIL = ''; // z. B. 'name@gmail.com' – im Google-Editor eintragen, nicht im öffentlichen Repo
 // Wird unter der /exec-URL angezeigt – so lässt sich prüfen, ob die neue Version veröffentlicht ist
-const VERSION = 4;
+const VERSION = 5;
 
 // Rückruf-Wünsche gehen zusätzlich immer an diese Adresse(n), Komma-getrennt
 const CALLBACK_EMAIL = 'anfrage@einfach-umzuege.de';
@@ -78,6 +78,14 @@ function testAnfrage() {
 function testRueckruf() {
   const res = doPost({ postData: { contents: JSON.stringify({ type: 'Rückruf', name: 'TEST Rückruf – bitte löschen', phone: '0170 1234567' }) } });
   console.log(res.getContent());
+}
+
+// Einmalig ausführen: fragt alle nötigen Berechtigungen ab (Tabelle, E-Mail, externe Anfragen für Brevo)
+function berechtigungenErteilen() {
+  SpreadsheetApp.getActiveSpreadsheet();
+  MailApp.getRemainingDailyQuota();
+  UrlFetchApp.fetch('https://api.brevo.com/v3/account', { muteHttpExceptions: true });
+  console.log('Alle Berechtigungen erteilt. Brevo-Schlüssel gesetzt:', Boolean(PropertiesService.getScriptProperties().getProperty('BREVO_API_KEY')));
 }
 
 // Zum Testen im Browser: zeigt, dass der Endpoint erreichbar ist
@@ -198,6 +206,7 @@ function sendCustomerConfirmation(row) {
   // 1) Bevorzugt: Brevo – echter Absender anfrage@einfach-umzuege.de
   const key = PropertiesService.getScriptProperties().getProperty('BREVO_API_KEY');
   if (key) {
+    try {
     const res = UrlFetchApp.fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'post',
       contentType: 'application/json',
@@ -211,6 +220,10 @@ function sendCustomerConfirmation(row) {
     });
     if (res.getResponseCode() < 300) return;
     console.error('Brevo-Fehler', res.getResponseCode(), res.getContentText());
+    } catch (err) {
+      // z. B. fehlende Berechtigung oder Netzwerkfehler → trotzdem per Gmail bestätigen
+      console.error('Brevo nicht erreichbar, Versand über Gmail', err);
+    }
   }
   // 2) Rückfall: Gmail des Skript-Inhabers, Name „Einfach Umzüge", Antworten gehen an anfrage@
   MailApp.sendEmail({ to: row.email, subject, htmlBody: html, body: text, name: CUSTOMER_FROM.name, replyTo: CUSTOMER_FROM.email });
