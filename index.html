@@ -29,6 +29,12 @@
     "url": "https://www.einfach-umzuege.de/",
     "telephone": "+49-15568-716603",
     "email": "anfrage@einfach-umzuege.de",
+    "image": "https://www.einfach-umzuege.de/photos/team-1200.jpg",
+    "founder": { "@type": "Person", "name": "Bohdan Pavliuk" },
+    "employee": [
+      { "@type": "Person", "name": "Vasyl Pavliuk", "jobTitle": "Leiter Möbelmontage & Handwerk" },
+      { "@type": "Person", "name": "Oleksandr Pavliuk", "jobTitle": "Spezialist für Logistik & Transport" }
+    ],
     "priceRange": "€€",
     "currenciesAccepted": "EUR",
     "paymentAccepted": "Bar, Überweisung, EC-Karte, Kostenübernahme Jobcenter",
@@ -177,9 +183,13 @@
       </div>
 
       <div class="container-x">
-        <!-- FOTO: Team vor dem LKW. Ersetzen durch:
-             <img src="/photos/hero.jpg" alt="Das Team von Einfach Umzüge vor dem Umzugswagen" class="size-full object-cover" fetchpriority="high"> -->
-        <figure class="photo-slot aspect-[4/3] sm:aspect-[21/9]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Team vor dem LKW · 2400 × 1030</span></figure>
+        <!-- Team vor dem Transporter: Handy 4:3, ab Tablet 2:1 (WebP mit JPEG-Fallback) -->
+        <picture>
+          <source media="(max-width: 639px)" type="image/webp" srcset="/photos/team-mobil.webp" />
+          <source media="(max-width: 639px)" srcset="/photos/team-mobil.jpg" />
+          <source type="image/webp" srcset="/photos/team-1200.webp 1200w, /photos/team-2400.webp 2400w" sizes="(min-width: 1152px) 1104px, 100vw" />
+          <img src="/photos/team-1200.jpg" srcset="/photos/team-1200.jpg 1200w, /photos/team-2400.jpg 2400w" sizes="(min-width: 1152px) 1104px, 100vw" width="2400" height="1200" decoding="async" alt="Das Team von Einfach Umzüge – Oleksandr, Bohdan und Vasyl Pavliuk – vor dem Umzugstransporter" class="aspect-[4/3] w-full rounded-sm bg-slate-100 object-cover sm:aspect-[2/1]" />
+        </picture>
       </div>
 
       <ul class="container-x mt-8 grid gap-4 border-b border-line pb-12 text-sm sm:grid-cols-2 sm:pb-16 lg:grid-cols-4">
@@ -374,29 +384,21 @@
     <section id="leistungen" class="border-t border-line py-20 sm:py-28" aria-labelledby="leistungen-title">
       <div class="container-x">
         <h2 id="leistungen-title" class="h2">Leistungen</h2>
-        <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2">
-          <article>
-            <!-- FOTO: <img src="/photos/privatumzug.jpg" alt="Privatumzug" class="size-full object-cover" loading="lazy"> -->
-            <figure class="photo-slot aspect-[4/3]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Wohnungsumzug · 1200 × 900</span></figure>
-            <h3 class="mt-5 text-lg font-semibold">Privatumzüge</h3>
+        <div class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="border-t-2 border-navy pt-5">
+            <h3 class="text-lg font-semibold">Privatumzüge</h3>
             <p class="mt-2 leading-relaxed text-navy-700">Vom 1-Zimmer-Apartment bis zum Einfamilienhaus – in Frankfurt ebenso wie im ganzen 200-km-Umkreis.</p>
           </article>
-          <article>
-            <!-- FOTO: <img src="/photos/senioren.jpg" alt="Seniorenumzug" class="size-full object-cover" loading="lazy"> -->
-            <figure class="photo-slot aspect-[4/3]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Seniorenumzug · 1200 × 900</span></figure>
-            <h3 class="mt-5 text-lg font-semibold">Seniorenumzüge</h3>
+          <article class="border-t-2 border-navy pt-5">
+            <h3 class="text-lg font-semibold">Seniorenumzüge</h3>
             <p class="mt-2 leading-relaxed text-navy-700">Geduldig und einfühlsam: Wir sortieren, packen und richten die neue Wohnung ein.</p>
           </article>
-          <article>
-            <!-- FOTO: <img src="/photos/jobcenter.jpg" alt="Jobcenter-Umzug" class="size-full object-cover" loading="lazy"> -->
-            <figure class="photo-slot aspect-[4/3]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Kartons / Beratung · 1200 × 900</span></figure>
-            <h3 class="mt-5 text-lg font-semibold">Jobcenter-Umzüge</h3>
+          <article class="border-t-2 border-navy pt-5">
+            <h3 class="text-lg font-semibold">Jobcenter-Umzüge</h3>
             <p class="mt-2 leading-relaxed text-navy-700">Jobcenter Umzug Übernahme ohne Papierchaos: Kostenvoranschläge kostenlos, Abrechnung direkt mit dem Amt.</p>
           </article>
-          <article>
-            <!-- FOTO: <img src="/photos/montage.jpg" alt="Möbelmontage" class="size-full object-cover" loading="lazy"> -->
-            <figure class="photo-slot aspect-[4/3]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Möbelmontage · 1200 × 900</span></figure>
-            <h3 class="mt-5 text-lg font-semibold">Möbelmontage &amp; Verpackung</h3>
+          <article class="border-t-2 border-navy pt-5">
+            <h3 class="text-lg font-semibold">Möbelmontage &amp; Verpackung</h3>
             <p class="mt-2 leading-relaxed text-navy-700">Ab- und Aufbau von Schränken, Betten und Küchen sowie sicheres Verpacken.</p>
           </article>
         </div>
@@ -405,19 +407,61 @@
 
     <!-- ÜBER UNS -->
     <section id="ueber-uns" class="border-t border-line py-20 sm:py-28" aria-labelledby="ueber-title">
-      <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <!-- FOTO: <img src="/photos/familie.jpg" alt="Die Familie hinter Einfach Umzüge" class="size-full object-cover" loading="lazy"> -->
-        <figure class="photo-slot aspect-[4/5]"><span><svg class="size-6"><use href="#i-camera"/></svg>Foto: Portrait Familie / Inhaber · 1200 × 1500</span></figure>
-        <div>
-          <h2 id="ueber-title" class="h2">Ihr Umzugsunternehmen in Frankfurt – als Familienbetrieb</h2>
-          <p class="mt-5 leading-relaxed text-navy-700">Hinter Einfach Umzüge steht eine Familie aus der Region. Wir planen jeden Umzug persönlich – und halten, was wir im Angebot versprechen.</p>
-          <dl class="mt-10 space-y-6">
+      <div class="container-x">
+        <div class="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+          <div>
+            <h2 id="ueber-title" class="h2">Ihr Umzugsunternehmen in Frankfurt – als Familienbetrieb</h2>
+            <p class="mt-5 leading-relaxed text-navy-700">Hinter Einfach Umzüge stehen Vater und Söhne aus Raunheim: Bohdan, Vasyl und Oleksandr Pavliuk. Wir planen jeden Umzug persönlich – und halten, was wir im Angebot versprechen.</p>
+          </div>
+          <dl class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             <div class="border-t border-line pt-4"><dt class="font-semibold">Transparenter Festpreis</dt><dd class="mt-1 text-navy-700">Der vereinbarte Preis ist der Endpreis.</dd></div>
             <div class="border-t border-line pt-4"><dt class="font-semibold">Voll versicherter Transport</dt><dd class="mt-1 text-navy-700">Vom ersten Karton bis zum letzten Schrank abgesichert.</dd></div>
             <div class="border-t border-line pt-4"><dt class="font-semibold">Schnell &amp; flexibel</dt><dd class="mt-1 text-navy-700">Kurzfristige Termine, auch samstags. Rückmeldung meist innerhalb von 1 Stunde.</dd></div>
             <div class="border-t border-line pt-4"><dt class="font-semibold">Familiäre Sorgfalt</dt><dd class="mt-1 text-navy-700">Wir behandeln Ihr Hab und Gut wie unser eigenes.</dd></div>
           </dl>
         </div>
+
+        <ul class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8" aria-label="Unser Team">
+          <li>
+            <figure class="flex gap-4 sm:block">
+              <picture class="w-28 shrink-0 sm:w-auto">
+                <source type="image/webp" srcset="/photos/bohdan.webp" />
+                <img src="/photos/bohdan.jpg" width="720" height="900" loading="lazy" decoding="async" alt="Bohdan Pavliuk, Gründer und Geschäftsführer von Einfach Umzüge" class="aspect-[4/5] w-full rounded-lg bg-slate-100 object-cover" />
+              </picture>
+              <figcaption class="sm:mt-4">
+                <p class="text-lg font-bold">Bohdan Pavliuk</p>
+                <p class="text-sm font-semibold text-accent">Gründer &amp; Geschäftsführer</p>
+                <p class="mt-2 text-sm leading-relaxed text-navy-700">Ihr Ansprechpartner vom ersten Anruf bis zur Schlüsselübergabe. Er plant den Ablauf, erstellt Ihren Festpreis und sorgt dafür, dass alles wie vereinbart läuft.</p>
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="flex gap-4 sm:block">
+              <picture class="w-28 shrink-0 sm:w-auto">
+                <source type="image/webp" srcset="/photos/vasyl.webp" />
+                <img src="/photos/vasyl.jpg" width="720" height="900" loading="lazy" decoding="async" alt="Vasyl Pavliuk, Leiter Möbelmontage und Handwerk bei Einfach Umzüge" class="aspect-[4/5] w-full rounded-lg bg-slate-100 object-cover" />
+              </picture>
+              <figcaption class="sm:mt-4">
+                <p class="text-lg font-bold">Vasyl Pavliuk</p>
+                <p class="text-sm font-semibold text-accent">Leiter Möbelmontage &amp; Handwerk</p>
+                <p class="mt-2 text-sm leading-relaxed text-navy-700">Langjährige Erfahrung mit Werkzeug und Möbeln: Er baut Schränke, Betten und Küchen fachgerecht ab und wieder auf – präzise und mit Rücksicht auf Wände, Böden und Möbel.</p>
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="flex gap-4 sm:block">
+              <picture class="w-28 shrink-0 sm:w-auto">
+                <source type="image/webp" srcset="/photos/oleksandr.webp" />
+                <img src="/photos/oleksandr.jpg" width="720" height="900" loading="lazy" decoding="async" alt="Oleksandr Pavliuk, Spezialist für Logistik und Transport bei Einfach Umzüge" class="aspect-[4/5] w-full rounded-lg bg-slate-100 object-cover" />
+              </picture>
+              <figcaption class="sm:mt-4">
+                <p class="text-lg font-bold">Oleksandr Pavliuk</p>
+                <p class="text-sm font-semibold text-accent">Spezialist für Logistik &amp; Transport</p>
+                <p class="mt-2 text-sm leading-relaxed text-navy-700">Verpackt Möbel sicher in Folie und Kantenschutz, belädt den Transporter platzsparend und bringt alles schnell und unbeschadet ans Ziel.</p>
+              </figcaption>
+            </figure>
+          </li>
+        </ul>
       </div>
     </section>
 
