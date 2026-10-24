@@ -227,7 +227,7 @@ export async function initCalculator(root) {
     document.querySelectorAll('[data-price]').forEach((price) => {
       price.classList.toggle('price-empty', !input.ready);
       if (!input.ready) {
-        price.textContent = 'Ihr Preis erscheint hier';
+        price.textContent = 'Ihr Festpreis erscheint hier';
         delete price.dataset.value;
       } else {
         animateNumber(price, result.price);

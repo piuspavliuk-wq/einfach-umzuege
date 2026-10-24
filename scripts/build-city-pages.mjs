@@ -112,7 +112,7 @@ function page(city) {
 
   const faq = [
     [`Was kostet ein Umzug in ${city.short}?`,
-      `Ein Umzug innerhalb von ${city.name} kostet bei uns ab ${eur(d.local[0].price)} für eine 1-Zimmer-Wohnung und ab ${eur(from)} für eine 2-Zimmer-Wohnung (Erdgeschoss, ohne Zusatzleistungen, inkl. Anfahrt ab Raunheim). Etage, Aufzug und Zusatzleistungen berechnen Sie im Online-Rechner – Ihr verbindlicher Festpreis folgt nach kurzer Besichtigung.`],
+      `Ein Umzug innerhalb von ${city.name} kostet bei uns ab ${eur(d.local[0].price)} für eine 1-Zimmer-Wohnung und ab ${eur(from)} für eine 2-Zimmer-Wohnung (Erdgeschoss, ohne Zusatzleistungen, inkl. Anfahrt ab Raunheim). Etage, Aufzug und Zusatzleistungen berechnen Sie im Online-Rechner – der Preis dort ist Ihr Festpreis, sofern Ihre Angaben stimmen.`],
     [`Wie schnell können Sie in ${city.short} sein?`,
       isBase ? `Sehr schnell – Raunheim ist unser Standort. Kurzfristige Termine sind oft möglich, auch samstags.`
         : `Von Raunheim aus erreichen wir ${city.name} in rund ${driveText(d.minutes)}. Wir arbeiten von Montag bis Samstag und vergeben kurzfristige Termine.`],

@@ -92,7 +92,7 @@
       { "@type": "Question", "name": "Ist mein Umzugsgut versichert?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Jeder Umzug ist über unsere Transportversicherung abgesichert. Die gesetzliche Haftung nach HGB (620 € je m³ Umzugsgut) ist immer inklusive; auf Wunsch erweitern wir den Schutz bis zum vollen Neuwert." } },
       { "@type": "Question", "name": "Übernimmt das Jobcenter die Umzugskosten?", "acceptedAnswer": { "@type": "Answer", "text": "Wenn der Umzug notwendig ist und das Jobcenter vorab zustimmt, werden die Kosten in der Regel übernommen (§ 22 Abs. 6 SGB II). Wir erstellen Ihnen kostenlos die benötigten Kostenvoranschläge und rechnen auf Wunsch direkt mit dem Jobcenter ab." } },
       { "@type": "Question", "name": "Wie kann ich bezahlen?", "acceptedAnswer": { "@type": "Answer", "text": "Sie zahlen erst nach dem erfolgreichen Umzug – bar, per EC-Karte oder per Überweisung. Bei Jobcenter-Umzügen erfolgt die Zahlung direkt durch das Amt." } },
-      { "@type": "Question", "name": "Ist der Preis aus dem Rechner verbindlich?", "acceptedAnswer": { "@type": "Answer", "text": "Der Online-Rechner liefert eine realistische Schätzung. Nach einer kurzen Besichtigung – vor Ort oder per Video – erhalten Sie ein verbindliches Festpreis-Angebot ohne versteckte Kosten." } },
+      { "@type": "Question", "name": "Ist der Preis aus dem Rechner verbindlich?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Der Preis aus unserem Rechner ist Ihr Festpreis – vorausgesetzt, Ihre Angaben stimmen (Wohnfläche, Möblierung, Etagen, Aufzug, besondere Gegenstände und Zusatzleistungen). Wir bestätigen ihn kurz telefonisch. Stellt sich am Umzugstag heraus, dass etwas nicht angegeben war – z. B. ein zusätzlicher Kellerraum oder ein Klavier –, sprechen wir einen Aufpreis vorher mit Ihnen ab, nie ohne Ihre Zustimmung." } },
       { "@type": "Question", "name": "Welche Tipps gibt es zum Packen?", "acceptedAnswer": { "@type": "Answer", "text": "Beginnen Sie 2–3 Wochen vorher mit selten genutzten Dingen, packen Sie Kartons maximal 20 kg schwer, schwere Sachen unten, und beschriften Sie jeden Karton mit Zielraum und Inhalt. Wertsachen und Dokumente transportieren Sie am besten selbst." } }
     ]
   }
@@ -173,7 +173,7 @@
             <input type="range" id="q-sqm-range" min="15" max="250" step="5" value="70" data-sync="q-sqm" class="slider" aria-label="Wohnfläche Schieberegler" />
           </div>
           <div class="mt-6 flex items-end justify-between gap-4 border-t border-navy pt-4" aria-live="polite">
-            <p class="text-sm text-navy-700">Ihr Preis<br />inkl. MwSt.</p>
+            <p class="text-sm text-navy-700">Ihr Festpreis<br />inkl. MwSt.</p>
             <p data-price class="text-4xl font-bold tracking-tight tabular-nums">–</p>
           </div>
           <button type="button" data-secure class="btn-primary mt-5 w-full">Diesen Festpreis sichern</button>
@@ -335,14 +335,15 @@
 
             <div class="mt-12 border-t border-navy pt-6" aria-live="polite">
               <div class="flex items-end justify-between gap-4">
-                <p class="text-sm text-navy-700">Ihr Preis<br />inkl. MwSt.</p>
+                <p class="text-sm text-navy-700">Ihr Festpreis<br />inkl. MwSt.</p>
                 <p id="price" data-price class="text-5xl font-bold tracking-tight tabular-nums sm:text-6xl">–</p>
               </div>
               <details class="mt-3 text-sm text-navy-700">
                 <summary class="cursor-pointer hover:text-navy">Aufschlüsselung</summary>
                 <ul id="price-breakdown" class="mt-3 space-y-1"></ul>
               </details>
-              <p class="mt-3 text-sm text-navy-700"><span class="text-accent">✓</span> Bezahlung auch über das Jobcenter möglich – wir rechnen direkt mit dem Amt ab.</p>
+              <p class="mt-3 text-sm text-navy-700"><span class="text-accent">✓</span> Festpreis – gilt, wenn Ihre Angaben stimmen. Keine Nachforderungen ohne Ihre Zustimmung.</p>
+              <p class="mt-1 text-sm text-navy-700"><span class="text-accent">✓</span> Bezahlung auch über das Jobcenter möglich – wir rechnen direkt mit dem Amt ab.</p>
             </div>
 
             <!-- Schritt 1: Preis sehen → Schritt 2: Kontaktdaten -->
@@ -352,7 +353,7 @@
             </div>
 
             <form id="lead-form" class="mt-10 grid gap-4 border-t border-line pt-8 sm:grid-cols-3" novalidate hidden>
-              <p class="sm:col-span-3"><span class="font-semibold">Fast geschafft!</span> <span class="text-navy-700">Wir rufen Sie meist innerhalb von 1&nbsp;Stunde zurück (Mo–Sa, 7–20 Uhr) und besprechen Ihren verbindlichen Festpreis.</span></p>
+              <p class="sm:col-span-3"><span class="font-semibold">Fast geschafft!</span> <span class="text-navy-700">Wir rufen Sie meist innerhalb von 1&nbsp;Stunde zurück (Mo–Sa, 7–20 Uhr) und bestätigen Ihren Festpreis.</span></p>
               <!-- Honeypot gegen Spam-Bots: für Menschen unsichtbar -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden" />
               <div>
@@ -539,7 +540,7 @@
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold [&::-webkit-details-marker]:hidden">
               <h3>Ist der Preis aus dem Rechner verbindlich?</h3><span class="text-xl font-light group-open:rotate-45 transition">+</span>
             </summary>
-            <p class="pb-6 leading-relaxed text-navy-700">Der Online-Rechner liefert eine realistische Schätzung. Nach einer kurzen Besichtigung – vor Ort oder per Video – erhalten Sie ein verbindliches Festpreis-Angebot ohne versteckte Kosten.</p>
+            <p class="pb-6 leading-relaxed text-navy-700">Ja. Der Preis aus unserem Rechner ist Ihr Festpreis – vorausgesetzt, Ihre Angaben stimmen (Wohnfläche, Möblierung, Etagen, Aufzug, besondere Gegenstände und Zusatzleistungen). Wir bestätigen ihn kurz telefonisch. Stellt sich am Umzugstag heraus, dass etwas nicht angegeben war – z.&nbsp;B. ein zusätzlicher Kellerraum oder ein Klavier –, sprechen wir einen Aufpreis vorher mit Ihnen ab, nie ohne Ihre Zustimmung.</p>
           </details>
           <details class="group" name="faq">
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold [&::-webkit-details-marker]:hidden">
