@@ -170,6 +170,7 @@ function sendCustomerConfirmation(row) {
       <p style="margin:24px 0 0">${esc(greeting)},</p>
       <p>vielen Dank für Ihre Anfrage! Wir rufen Sie <b>meist innerhalb von 1 Stunde</b> (Mo–Sa, 7–20 Uhr) unter
          <b>${esc(row.phone)}</b> an und bestätigen Ihren Festpreis.</p>
+      <p style="background:#FFF7ED;border-left:3px solid #F97316;padding:10px 14px;margin:16px 0">📞 Wir rufen Sie von <b>${COMPANY.phone}</b> an – speichern Sie gern unsere Nummer, damit Sie uns erkennen.</p>
       <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:16px 20px;margin:20px 0">
         <p style="margin:0;color:#64748B;font-size:13px">Ihr Festpreis inkl. MwSt.</p>
         <p style="margin:2px 0 12px;font-size:28px;font-weight:bold">${esc(row.price)} €</p>
@@ -187,6 +188,7 @@ function sendCustomerConfirmation(row) {
   const text = [
     `${greeting},`, '',
     `vielen Dank für Ihre Anfrage! Wir rufen Sie meist innerhalb von 1 Stunde (Mo–Sa, 7–20 Uhr) unter ${row.phone} an und bestätigen Ihren Festpreis.`, '',
+    `Wir rufen Sie von ${COMPANY.phone} an – speichern Sie gern unsere Nummer.`, '',
     `Ihr Festpreis inkl. MwSt.: ${row.price} €`, ...lines.map(([k, v]) => `${k}: ${v}`), '',
     'Der Festpreis gilt, wenn Ihre Angaben stimmen. Einen Aufpreis gibt es nie ohne Ihre Zustimmung.', '',
     `Fragen? Antworten Sie auf diese E-Mail, rufen Sie an (${COMPANY.phone}) oder schreiben Sie per WhatsApp.`, '',
