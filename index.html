@@ -384,6 +384,13 @@
     <section id="leistungen" class="border-t border-line py-20 sm:py-28" aria-labelledby="leistungen-title">
       <div class="container-x">
         <h2 id="leistungen-title" class="h2">Leistungen</h2>
+        <!-- Team von hinten (Logos auf den Shirts): schmaler Streifen, lädt erst beim Scrollen -->
+        <picture>
+          <source media="(max-width: 639px)" type="image/webp" srcset="/photos/ruecken-mobil.webp" />
+          <source media="(max-width: 639px)" srcset="/photos/ruecken-mobil.jpg" />
+          <source type="image/webp" srcset="/photos/ruecken-1200.webp 1200w, /photos/ruecken-2400.webp 2400w" sizes="(min-width: 1152px) 1104px, 100vw" />
+          <img src="/photos/ruecken-1200.jpg" srcset="/photos/ruecken-1200.jpg 1200w, /photos/ruecken-2400.jpg 2400w" sizes="(min-width: 1152px) 1104px, 100vw" width="2400" height="1029" loading="lazy" decoding="async" alt="Das Team von Einfach Umzüge von hinten – Logo, Telefonnummer und Website auf den Shirts" class="mt-8 aspect-[3/2] w-full rounded-sm bg-slate-100 object-cover sm:aspect-[21/9]" />
+        </picture>
         <div class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           <article class="border-t-2 border-navy pt-5">
             <h3 class="text-lg font-semibold">Privatumzüge</h3>
